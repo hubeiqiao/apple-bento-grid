@@ -4,6 +4,8 @@ A skill for AI coding agents that generates Apple-inspired bento grid presentati
 
 > Compatible with [Claude Code](https://claude.com/claude-code), [OpenAI Codex](https://openai.com/index/codex/), [Cursor](https://cursor.sh), and other agents that support the [Agent Skills](https://agentskills.io) standard.
 
+![Apple Bento Grid Showcase](examples/showcase.png)
+
 ## Real Examples
 
 These were all created using this skill:

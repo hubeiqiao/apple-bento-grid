@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Bento Grid — Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #000;
+    color: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .grid {
+    display: grid;
+    width: 1100px;
+    padding: 28px;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-areas:
+      "hero     types     themes"
+      "hero     layouts   deps"
+      "category highlight highlight"
+      "badge    chart     chart"
+      "quote    quote     quote";
+    aspect-ratio: 52 / 28;
+  }
+
+  /* === CARD BASE (Dark) === */
+  .card {
+    border-radius: 20px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: #888;
+    line-height: 1.25;
+  }
+
+  /* === HERO — spans 2 rows === */
+  .card-hero {
+    grid-area: hero;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    padding: 28px;
+    align-self: stretch;
+  }
+
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2997ff, #bf5af2, #30d158);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #f5f5f7;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 12px;
+  }
+
+  /* === STAT CARDS === */
+  .card-types {
+    grid-area: types;
+    background: linear-gradient(145deg, #0a1628, #0d0d0d);
+  }
+  .card-types::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(41,151,255,0.08) 0%, transparent 70%);
+  }
+
+  .card-themes {
+    grid-area: themes;
+    background: linear-gradient(145deg, #1a0a28, #0d0d0d);
+  }
+  .card-themes::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(191,90,242,0.08) 0%, transparent 70%);
+  }
+
+  .card-layouts {
+    grid-area: layouts;
+    background: linear-gradient(145deg, #0a1a2a, #0d0d0d);
+  }
+  .card-layouts::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,210,255,0.08) 0%, transparent 70%);
+  }
+
+  .card-deps {
+    grid-area: deps;
+    background: linear-gradient(145deg, #0a1e0a, #0d0d0d);
+  }
+  .card-deps::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(48,209,88,0.08) 0%, transparent 70%);
+  }
+
+  .card-stat .num {
+    font-size: 48px;
+    margin-bottom: 4px;
+  }
+
+  .card-stat .label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+  }
+
+  .card-stat .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  /* === CATEGORY CARD === */
+  .card-category {
+    grid-area: category;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    padding: 22px 24px;
+  }
+
+  .category-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .category-focus {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ccc;
+    margin-bottom: 8px;
+  }
+
+  .pills-wrap { display: flex; flex-wrap: wrap; gap: 0; }
+
+  .pill {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #aaa;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    padding: 3px 9px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+
+  /* === HIGHLIGHT CARD === */
+  .card-highlight {
+    grid-area: highlight;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    background: linear-gradient(145deg, #1d4ed8 0%, #3b82f6 60%, #93c5fd 100%);
+    padding: 28px;
+  }
+
+  .card-highlight .num {
+    font-size: 64px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .card-highlight .label {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  .card-highlight .sub-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+  }
+
+  /* === BADGE CARD === */
+  .card-badge {
+    grid-area: badge;
+    background: linear-gradient(145deg, #0a1e0a, #0d0d0d);
+    padding: 22px 24px;
+  }
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    padding: 4px 12px;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+
+  .badge-pill span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #aaa;
+  }
+
+  .badge-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #30d158;
+    line-height: 1.2;
+  }
+
+  .badge-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  /* === BAR CHART === */
+  .card-chart {
+    grid-area: chart;
+    background: linear-gradient(145deg, #0d0d1a, #0d0d0d);
+    padding: 22px 24px;
+    align-self: stretch;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .chart-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .chart-badge {
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #2997ff;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .bar-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #2997ff, #0071e3);
+  }
+
+  .bar-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  /* === QUOTE CARD — full width === */
+  .card-quote {
+    grid-area: quote;
+    background: linear-gradient(135deg, #1c1c1e, #111);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 48px;
+  }
+
+  .quote-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f5f5f7;
+    line-height: 1.3;
+  }
+
+  .quote-text .q { color: #555; }
+  .quote-text em { color: #30d158; font-style: normal; }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- HERO — spans 2 rows -->
+    <div class="card card-hero">
+      <div class="hero-tagline">Apple</div>
+      <div class="hero-tagline">Bento Grid</div>
+      <div class="hero-sub">Ship beautiful stats.</div>
+      <div class="hero-date">Claude Code Skill &middot; v1.0</div>
+    </div>
+
+    <!-- STAT: Card Types -->
+    <div class="card card-stat card-types">
+      <div class="num" style="color: #2997ff">7</div>
+      <div class="label">Card Types</div>
+      <div class="sub">Hero, Stat, Category, Chart, Badge, Quote, Highlight</div>
+    </div>
+
+    <!-- STAT: Themes -->
+    <div class="card card-stat card-themes">
+      <div class="num" style="color: #bf5af2">2</div>
+      <div class="label">Themes</div>
+      <div class="sub">Light + Dark</div>
+    </div>
+
+    <!-- STAT: Layouts -->
+    <div class="card card-stat card-layouts">
+      <div class="num" style="color: #64d2ff">3</div>
+      <div class="label">Layouts</div>
+      <div class="sub">4-col, 3-col, 2-col</div>
+    </div>
+
+    <!-- STAT: Dependencies -->
+    <div class="card card-stat card-deps">
+      <div class="num" style="color: #30d158">0</div>
+      <div class="label">Dependencies</div>
+      <div class="sub">Self-contained HTML</div>
+    </div>
+
+    <!-- CATEGORY: Card Types -->
+    <div class="card card-category">
+      <div class="category-name" style="color: #2997ff">Card Types</div>
+      <div class="category-focus">Every card in the design system</div>
+      <div class="pills-wrap">
+        <span class="pill">Hero</span>
+        <span class="pill">Stat</span>
+        <span class="pill">Category</span>
+        <span class="pill">Chart</span>
+        <span class="pill">Badge</span>
+        <span class="pill">Quote</span>
+        <span class="pill">Highlight</span>
+      </div>
+    </div>
+
+    <!-- HIGHLIGHT: 1 File -->
+    <div class="card card-highlight">
+      <div class="num">1 File</div>
+      <div class="label">Per Output</div>
+      <div class="sub-label">Single self-contained HTML</div>
+    </div>
+
+    <!-- BADGE: Built for Claude Code -->
+    <div class="card card-badge">
+      <div class="badge-pill">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="8" fill="#30d158"/>
+          <path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Claude Code</span>
+      </div>
+      <div class="badge-num">Built for<br>Claude Code</div>
+      <div class="badge-lbl">Install as a skill. Prompt to generate.</div>
+    </div>
+
+    <!-- BAR CHART: Real Projects Built -->
+    <div class="card card-chart">
+      <div class="chart-header">
+        <div class="chart-title">Real Projects Built</div>
+        <div class="chart-badge">3 demos</div>
+      </div>
+      <div class="chart-bars">
+        <div class="bar-group">
+          <div class="bar-val">v1</div>
+          <div class="bar" style="height: 45px; opacity: 0.5"></div>
+          <div class="bar-lbl">Personal<br>Dashboard</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-val">v2</div>
+          <div class="bar" style="height: 80px; opacity: 0.75"></div>
+          <div class="bar-lbl">Product<br>Launch</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-val">v3</div>
+          <div class="bar" style="height: 120px; opacity: 1"></div>
+          <div class="bar-lbl">Year in<br>Review</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE — full width -->
+    <div class="card card-quote">
+      <div class="quote-text"><span class="q">"</span> Describe your stats. Get <em>pixel-perfect</em> output. <span class="q">"</span></div>
+    </div>
+
+  </div>
+</body>
+</html>
