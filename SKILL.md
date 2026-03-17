@@ -58,6 +58,8 @@ After generating the HTML, always view the output to catch visual issues before 
 
 **Font fallback** — Text rendering in system fonts instead of Sora/DM Sans. Ensure Google Fonts link is present and page has network access.
 
+**Screenshot clipping** — Right or bottom edges of cards cut off in the exported PNG. Fix by ensuring viewport width matches the grid CSS width exactly and the clip uses `box.x`/`box.y` from `boundingBox()`, not `x: 0, y: 0`.
+
 If any issues are found, fix the HTML and re-check. Do not present to the user until the output passes visual review.
 
 ## Theme Selection
@@ -126,6 +128,12 @@ node screenshot.mjs
 ```
 
 Edit the `pages` array in `screenshot.mjs` to point to your HTML files. Each entry needs: `file` (HTML path), `output` (PNG path), `viewportWidth` (match grid width).
+
+**Critical: Viewport must match grid width.** If the viewport is wider than the grid, the grid gets centered and the clip can cut off the right edge. Always set `viewportWidth` to the exact grid CSS width (1200 for 4-col, 1100 for 3-col, 600 for 2-col).
+
+**Critical: Clip must use element position.** When clipping to the grid element, use `box.x` and `box.y` from `boundingBox()`, not `x: 0, y: 0`. If the grid is centered in a wider viewport, `x: 0` will start the clip before the grid and cut off the right side.
+
+**After screenshotting, always view the output image** to verify no edges are clipped. Check that the rightmost and bottommost cards are fully visible with their border-radius intact.
 
 ## Logos & Images
 
