@@ -1,0 +1,63 @@
+{
+  "skill_name": "apple-bento-grid",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an Apple-style bento grid showing my SaaS startup's Q4 2025 metrics: $2.4M ARR, 12,500 active users, 340 enterprise accounts, $42K infrastructure cost saved. We had 3 product phases: Research & Discovery, Build & Ship, Scale & Optimize. Quarterly user growth: Q1 3K, Q2 7K, Q3 10K, Q4 12.5K. Team motto: 'Ship faster, measure everything, iterate daily.' Make it landscape/horizontal format for a slide deck.",
+      "expected_output": "A single self-contained HTML file with a 4-column horizontal bento grid at 1200px width, containing Hero, Stat, Category, Bar Chart, and Quote cards with the specified data",
+      "files": [],
+      "expectations": [
+        "Output is a single .html file with all CSS inline (no external stylesheets except Google Fonts)",
+        "Grid uses CSS Grid with gap: 6px and does NOT use align-items: start",
+        "Grid has aspect-ratio set (horizontal layout requirement)",
+        "Contains at least 4 stat cards with the provided numbers ($2.4M, 12,500, 340, $42K)",
+        "Contains at least one bar chart card showing quarterly growth (Q1-Q4)",
+        "Contains a quote card with the team motto and <em> emphasis tags",
+        "Contains category cards for the 3 product phases with pill tags",
+        "Uses Sora and DM Sans fonts from Google Fonts",
+        "All grid cells are occupied (no empty cells in grid-template-areas)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build a vertical social media card (portrait format) for my GitHub open source project stats: 2,847 stars, 156 contributors, 48 releases, and 99.7% uptime. Include a highlight card showing '10x' developer productivity gain.",
+      "expected_output": "A single self-contained HTML file with a 2-column vertical bento grid at 600px width, no aspect-ratio, with stat cards and a highlight card",
+      "files": [],
+      "expectations": [
+        "Output is a single .html file",
+        "Grid uses 2-column layout at ~600px width",
+        "Grid does NOT have aspect-ratio property (vertical layout)",
+        "Contains stat cards for stars, contributors, releases, and uptime",
+        "Contains a highlight card with gradient background for the 10x stat",
+        "Uses grid-template-rows with auto values (not 1fr)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I only have 3 numbers to show: 500 commits, 12 contributors, 98% test coverage. Make a clean Apple-style bento card for this.",
+      "expected_output": "A minimal bento grid (2-column or 3-column) with stat cards for the 3 numbers, plus a hero card for context",
+      "files": [],
+      "expectations": [
+        "Output is a single .html file",
+        "Contains stat cards for all 3 provided numbers",
+        "Grid gap is 6px",
+        "Cards use white background (#ffffff) with box-shadow",
+        "Does not have excessive empty space or unused card types"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create a bento grid for a product launch presentation with: $180K cost savings, 3x faster deployment, badge card showing 'Built with Next.js', and a dark quote card saying 'Zero downtime, maximum impact' with emphasis on 'Zero' and 'maximum'. Use blue and cyan accents.",
+      "expected_output": "A horizontal bento grid with stat, highlight, badge, and quote cards using blue/cyan color scheme",
+      "files": [],
+      "expectations": [
+        "Output is a single .html file",
+        "Contains a badge card with an icon pill mentioning Next.js",
+        "Contains a quote card with dark background (#1d1d1f) and white text",
+        "Quote card uses <em> tags for emphasis on specified words",
+        "Uses blue (#0071e3) and/or cyan (#00b4d8) accent colors",
+        "Contains a stat or highlight card showing $180K and/or 3x"
+      ]
+    }
+  ]
+}

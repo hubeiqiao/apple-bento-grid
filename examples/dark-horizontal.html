@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q4 2025 SaaS Metrics — Dark Bento Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #000;
+    color: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .grid {
+    display: grid;
+    width: 1200px;
+    padding: 28px;
+    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+      "hero    arr      users    chart"
+      "hero    enter    savings  chart"
+      "phase1  phase2   phase3   highlight"
+      "quote   quote    quote    highlight";
+    aspect-ratio: 52 / 25;
+  }
+
+  /* === CARD BASE === */
+  .card {
+    border-radius: 20px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 10px;
+  }
+
+  .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-top: 8px;
+    width: fit-content;
+  }
+
+  .badge-green {
+    background: rgba(48, 209, 88, 0.15);
+    color: #30d158;
+  }
+
+  .badge-blue {
+    background: rgba(41, 151, 255, 0.15);
+    color: #2997ff;
+  }
+
+  .badge-purple {
+    background: rgba(191, 90, 242, 0.15);
+    color: #bf5af2;
+  }
+
+  .badge-red {
+    background: rgba(255, 69, 58, 0.15);
+    color: #ff453a;
+  }
+
+  /* === HERO — spans 2 rows === */
+  .card-hero {
+    grid-area: hero;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    padding: 28px;
+    justify-content: center;
+  }
+
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2997ff, #30d158, #2997ff);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #2997ff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #f5f5f7;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 14px;
+  }
+
+  /* === STAT CARDS === */
+  .card-arr {
+    grid-area: arr;
+    background: linear-gradient(145deg, #0a1e0a, #0d0d0d);
+  }
+  .card-arr::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(48,209,88,0.08) 0%, transparent 70%);
+  }
+
+  .card-users {
+    grid-area: users;
+    background: linear-gradient(145deg, #0a1628, #0d0d0d);
+  }
+  .card-users::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(41,151,255,0.08) 0%, transparent 70%);
+  }
+
+  .card-enter {
+    grid-area: enter;
+    background: linear-gradient(145deg, #1a0a28, #0d0d0d);
+  }
+  .card-enter::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(191,90,242,0.08) 0%, transparent 70%);
+  }
+
+  .card-savings {
+    grid-area: savings;
+    background: linear-gradient(145deg, #1a0a0a, #0d0d0d);
+  }
+  .card-savings::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,69,58,0.06) 0%, transparent 70%);
+  }
+
+  /* === CHART — spans 2 rows === */
+  .card-chart {
+    grid-area: chart;
+    background: linear-gradient(145deg, #0d0d1a, #0d0d0d);
+    padding: 24px;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .chart-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .chart-badge {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #30d158;
+  }
+
+  .chart-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #2997ff, #0071e3);
+  }
+
+  .bar-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .bar-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* === PHASE CARDS === */
+  .card-phase1 {
+    grid-area: phase1;
+    background: linear-gradient(145deg, #1a0a28, #0d0d0d);
+    padding: 22px 24px;
+  }
+
+  .card-phase2 {
+    grid-area: phase2;
+    background: linear-gradient(145deg, #0a1628, #0d0d0d);
+    padding: 22px 24px;
+  }
+
+  .card-phase3 {
+    grid-area: phase3;
+    background: linear-gradient(145deg, #0a1e0a, #0d0d0d);
+    padding: 22px 24px;
+  }
+
+  .phase-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+
+  .phase-focus {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #e5e5e7;
+    margin-bottom: 8px;
+  }
+
+  .pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .pill {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    padding: 3px 9px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+
+  /* === HIGHLIGHT — spans 2 rows === */
+  .card-highlight {
+    grid-area: highlight;
+    background: linear-gradient(145deg, #059669 0%, #34d399 60%, #6ee7b7 100%);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    padding: 28px;
+  }
+
+  .card-highlight .num {
+    font-size: 64px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .card-highlight .hl-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.3;
+  }
+
+  .card-highlight .hl-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 6px;
+  }
+
+  /* === QUOTE — spans 3 columns === */
+  .card-quote {
+    grid-area: quote;
+    background: linear-gradient(135deg, #1c1c1e, #111);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 48px;
+  }
+
+  .quote-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f5f5f7;
+    line-height: 1.3;
+  }
+
+  .quote-text .q { color: #555; }
+  .quote-text em { color: #30d158; font-style: normal; }
+
+  .quote-attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #555;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- HERO — spans 2 rows -->
+    <div class="card card-hero">
+      <div>
+        <div class="hero-eyebrow">Q4 2025 Performance</div>
+        <div class="hero-tagline">SaaS</div>
+        <div class="hero-tagline">Metrics</div>
+        <div class="hero-sub">Year in Review.</div>
+      </div>
+      <div>
+        <div class="hero-date">Oct 2025 — Dec 2025 &bull; Q4 Report</div>
+        <span class="badge badge-green">All Targets Hit</span>
+      </div>
+    </div>
+
+    <!-- STAT: ARR -->
+    <div class="card card-arr">
+      <div>
+        <div class="label">Annual Recurring Revenue</div>
+        <div class="num" style="font-size: 44px; color: #30d158">$2.4M</div>
+        <div class="sub">Up from $1.3M in Q4 2024</div>
+      </div>
+      <div><span class="badge badge-green">+84% YoY</span></div>
+    </div>
+
+    <!-- STAT: Active Users -->
+    <div class="card card-users">
+      <div>
+        <div class="label">Active Users</div>
+        <div class="num" style="font-size: 44px; color: #2997ff">12,500</div>
+        <div class="sub">317% growth since Q1</div>
+      </div>
+      <div><span class="badge badge-blue">+25% QoQ</span></div>
+    </div>
+
+    <!-- STAT: Enterprise Accounts -->
+    <div class="card card-enter">
+      <div>
+        <div class="label">Enterprise Accounts</div>
+        <div class="num" style="font-size: 48px; color: #bf5af2">340</div>
+        <div class="sub">Avg contract value $7.1K</div>
+      </div>
+      <div><span class="badge badge-purple">B2B Focus</span></div>
+    </div>
+
+    <!-- STAT: Infrastructure Cost Saved -->
+    <div class="card card-savings">
+      <div>
+        <div class="label">Infra Cost Saved</div>
+        <div class="num" style="font-size: 44px; color: #ff453a">$42K</div>
+        <div class="sub">Cloud optimization + caching</div>
+      </div>
+      <div><span class="badge badge-red">-38% Burn</span></div>
+    </div>
+
+    <!-- BAR CHART — spans 2 rows -->
+    <div class="card card-chart">
+      <div>
+        <div class="chart-header">
+          <div class="chart-title">User Growth</div>
+          <div class="chart-badge">4.2x</div>
+        </div>
+        <div class="chart-sub">Quarterly active users (thousands)</div>
+      </div>
+      <div class="chart-bars">
+        <div class="bar-group">
+          <div class="bar-val">3K</div>
+          <div class="bar" style="height: 40px; opacity: 0.5"></div>
+          <div class="bar-lbl">Q1</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-val">7K</div>
+          <div class="bar" style="height: 90px; opacity: 0.65"></div>
+          <div class="bar-lbl">Q2</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-val">10K</div>
+          <div class="bar" style="height: 128px; opacity: 0.8"></div>
+          <div class="bar-lbl">Q3</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-val">12.5K</div>
+          <div class="bar" style="height: 160px; opacity: 1"></div>
+          <div class="bar-lbl">Q4</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="card card-phase1">
+      <div>
+        <div class="phase-label" style="color: #bf5af2">Phase 1</div>
+        <div class="phase-focus">Research & Discovery</div>
+      </div>
+      <div class="pills-wrap">
+        <span class="pill">User Interviews</span>
+        <span class="pill">Market Sizing</span>
+        <span class="pill">Competitive Audit</span>
+        <span class="pill">Prototyping</span>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="card card-phase2">
+      <div>
+        <div class="phase-label" style="color: #2997ff">Phase 2</div>
+        <div class="phase-focus">Build & Ship</div>
+      </div>
+      <div class="pills-wrap">
+        <span class="pill">MVP Launch</span>
+        <span class="pill">CI/CD Pipeline</span>
+        <span class="pill">Beta Program</span>
+        <span class="pill">API v1</span>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="card card-phase3">
+      <div>
+        <div class="phase-label" style="color: #30d158">Phase 3</div>
+        <div class="phase-focus">Scale & Optimize</div>
+      </div>
+      <div class="pills-wrap">
+        <span class="pill">Auto-scaling</span>
+        <span class="pill">Enterprise SSO</span>
+        <span class="pill">Analytics v2</span>
+        <span class="pill">SOC 2</span>
+      </div>
+    </div>
+
+    <!-- HIGHLIGHT — spans 2 rows -->
+    <div class="card card-highlight">
+      <div class="num">4.2x</div>
+      <div class="hl-label">User Growth<br>Q1 to Q4</div>
+      <div class="hl-sub">3,000 to 12,500 active users</div>
+    </div>
+
+    <!-- QUOTE — spans 3 columns -->
+    <div class="card card-quote">
+      <div>
+        <div class="quote-text"><span class="q">&ldquo;</span> Ship <em>faster</em>, measure <em>everything</em>, iterate daily. <span class="q">&rdquo;</span></div>
+        <div class="quote-attr">Team Motto &bull; Q4 2025</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

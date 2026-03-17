@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Launch — Bento Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-conic-gradient(rgba(0,0,0,0.015) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .grid {
+    display: grid;
+    width: 1100px;
+    padding: 28px;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+      "hero    savings   deploy"
+      "hero    badge     deploy"
+      "infra   perf      uptime"
+      "quote   quote     quote";
+    aspect-ratio: 52 / 22;
+  }
+
+  /* === CARD BASE === */
+  .card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: #86868b;
+    line-height: 1.25;
+  }
+
+  /* === HERO — spans 2 rows === */
+  .card-hero {
+    grid-area: hero;
+    align-self: stretch;
+    padding: 24px;
+  }
+
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00b4d8, #0071e3, #00b4d8);
+    border-radius: 18px 18px 0 0;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #00b4d8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #1d1d1f;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #86868b;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #aeaeb2;
+    margin-top: 10px;
+  }
+
+  /* === STAT: SAVINGS === */
+  .card-savings {
+    grid-area: savings;
+  }
+
+  /* === HIGHLIGHT: 3x DEPLOY === */
+  .card-deploy {
+    grid-area: deploy;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    background: linear-gradient(145deg, #0e7490 0%, #06b6d4 60%, #67e8f9 100%);
+    padding: 28px;
+  }
+
+  .card-deploy .num {
+    font-size: 72px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .card-deploy .label {
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  .card-deploy .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+  }
+
+  /* === BADGE: NEXT.JS === */
+  .card-badge {
+    grid-area: badge;
+    padding: 20px 22px;
+  }
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0f0f2;
+    border-radius: 100px;
+    padding: 4px 12px;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+
+  .badge-pill span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6e6e73;
+  }
+
+  .badge-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #0071e3;
+    letter-spacing: -0.03em;
+  }
+
+  .badge-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #86868b;
+    margin-top: 2px;
+  }
+
+  /* === CATEGORY: INFRA === */
+  .card-infra {
+    grid-area: infra;
+    padding: 18px 20px;
+  }
+
+  .category-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .category-focus {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 6px;
+  }
+
+  .pills-wrap { display: flex; flex-wrap: wrap; gap: 0; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #6e6e73;
+    background: #f0f0f2;
+    border-radius: 100px;
+    padding: 3px 9px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+
+  /* === CATEGORY: PERF === */
+  .card-perf {
+    grid-area: perf;
+    padding: 18px 20px;
+  }
+
+  /* === STAT: UPTIME === */
+  .card-uptime {
+    grid-area: uptime;
+  }
+
+  /* === QUOTE — spans 3 columns === */
+  .card-quote {
+    grid-area: quote;
+    background: #1d1d1f;
+    padding: 22px 28px;
+    justify-content: center;
+  }
+
+  .quote-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .quote-text em {
+    color: #00b4d8;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- HERO — spans 2 rows -->
+    <div class="card card-hero">
+      <div class="hero-eyebrow">Product Launch</div>
+      <div class="hero-tagline">Ship Faster.</div>
+      <div class="hero-tagline">Scale Bigger.</div>
+      <div class="hero-sub">Cut Costs.</div>
+      <div class="hero-date">Q1 2026 — Product Launch Presentation</div>
+    </div>
+
+    <!-- STAT: $180K Cost Savings -->
+    <div class="card card-savings">
+      <div class="num" style="font-size: 44px; color: #0071e3; margin-bottom: 4px">$180K</div>
+      <div class="label" style="font-size: 13px">Cost <strong style="color:#1d1d1f; font-weight:600">savings</strong> per year</div>
+    </div>
+
+    <!-- HIGHLIGHT: 3x Faster Deployment — spans 2 rows -->
+    <div class="card card-deploy">
+      <div class="num">3x</div>
+      <div class="label">Faster Deployment</div>
+      <div class="sub">Compared to previous pipeline</div>
+    </div>
+
+    <!-- BADGE: Built with Next.js -->
+    <div class="card card-badge">
+      <div class="badge-pill">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="8" fill="#1d1d1f"/>
+          <path d="M11.5 4L6.5 12L4.5 8.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Built with Next.js</span>
+      </div>
+      <div class="badge-num">14</div>
+      <div class="badge-lbl">App Router with server components</div>
+    </div>
+
+    <!-- CATEGORY: Infrastructure -->
+    <div class="card card-infra">
+      <div class="category-name" style="color: #0071e3">Infrastructure</div>
+      <div class="category-focus">Cloud-native architecture</div>
+      <div class="pills-wrap">
+        <span class="pill">Vercel Edge</span>
+        <span class="pill">Serverless</span>
+        <span class="pill">CDN</span>
+        <span class="pill">Auto-scale</span>
+      </div>
+    </div>
+
+    <!-- CATEGORY: Performance -->
+    <div class="card card-perf">
+      <div class="category-name" style="color: #00b4d8">Performance</div>
+      <div class="category-focus">Optimized delivery pipeline</div>
+      <div class="pills-wrap">
+        <span class="pill">ISR</span>
+        <span class="pill">Edge Cache</span>
+        <span class="pill">Image CDN</span>
+        <span class="pill">Streaming</span>
+      </div>
+    </div>
+
+    <!-- STAT: Uptime -->
+    <div class="card card-uptime">
+      <div class="num" style="font-size: 44px; color: #00b4d8; margin-bottom: 4px">99.99%</div>
+      <div class="label" style="font-size: 13px">Uptime <strong style="color:#1d1d1f; font-weight:600">guaranteed</strong></div>
+    </div>
+
+    <!-- QUOTE — spans 3 columns -->
+    <div class="card card-quote">
+      <div class="quote-text">"<em>Zero</em> downtime, <em>maximum</em> impact."</div>
+    </div>
+
+  </div>
+</body>
+</html>

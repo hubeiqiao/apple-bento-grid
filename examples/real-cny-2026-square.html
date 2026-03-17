@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>Joe Speaking — 现已支持中文 v0.1.7</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & CANVAS
+       ═══════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 1200px;
+      overflow: hidden;
+      background: #FAFAF5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ═══════════════════════════════════════════
+       GRID — 4 cols × 5 rows, 6px gap
+       Inner area: 1152×1152 (24px padding)
+       Row heights: 270 + 200 + 200 + 200 + 258 = 1128
+       + 4 gaps × 6px = 24 → total 1152 ✓
+       ═══════════════════════════════════════════ */
+    .grid {
+      width: 1200px;
+      height: 1200px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 270px 200px 200px 200px 1fr;
+      gap: 6px;
+    }
+
+    .card {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ═══════════════════════════════════════════
+       SHARED UTILITIES
+       ═══════════════════════════════════════════ */
+    .card-label {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #9CA3AF;
+      letter-spacing: 0.5px;
+    }
+
+    .glass-label {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 8px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1C1917;
+      letter-spacing: 0.3px;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 1 — HERO: "现已支持中文"
+       cols 1-3, row 1 | dark + red glow
+       ═══════════════════════════════════════════ */
+    .card-hero {
+      grid-column: 1 / 4;
+      grid-row: 1 / 2;
+      background: #1C1917;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 40px;
+    }
+
+    .card-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -40px;
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(196, 30, 58, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: 40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label .logo-img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .hero-label span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-deco {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 180px;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12) 0%, rgba(196, 30, 58, 0.12) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-title {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 56px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title .gradient {
+      background: linear-gradient(135deg, #FFD700 0%, #FF6B35 50%, #C41E3A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 2 — VERSION: v0.1.7
+       col 4, row 1 | Chinese red
+       ═══════════════════════════════════════════ */
+    .card-version {
+      grid-column: 4 / 5;
+      grid-row: 1 / 2;
+      background: #C41E3A;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      color: #FFFFFF;
+    }
+
+    .version-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -1.5px;
+    }
+
+    .version-date {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .version-year {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      opacity: 0.6;
+    }
+
+    .version-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      align-self: flex-start;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 3 — PRODUCT: What is Joe Speaking
+       cols 1-2, row 2
+       ═══════════════════════════════════════════ */
+    .card-product {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      background: #FAFAF5;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-title {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #1C1917;
+      line-height: 1.3;
+      margin-top: 6px;
+    }
+
+    .product-desc {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6B7280;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .product-stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 14px;
+    }
+
+    .product-stat-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .product-stat-item .accent {
+      color: #D97706;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 4 — STAT: 3 Languages
+       cols 3-4, row 2 | white
+       ═══════════════════════════════════════════ */
+    .card-languages {
+      grid-column: 3 / 5;
+      grid-row: 2 / 3;
+      background: #FFFFFF;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .languages-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .languages-left {
+      flex: 1;
+    }
+
+    .languages-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lang-check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .lang-check-item .check-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #22C55E;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .stat-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      color: #D97706;
+      line-height: 1;
+    }
+
+    .languages-big {
+      font-size: 96px;
+      letter-spacing: -4px;
+      margin-top: 0;
+    }
+
+    .languages-unit {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1C1917;
+      margin-left: 4px;
+    }
+
+    .languages-subtitle {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #6B7280;
+      margin-top: 0;
+    }
+
+    .languages-desc {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      color: #9CA3AF;
+      margin-top: 4px;
+    }
+
+    .lang-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .lang-tag {
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      background: #F3F4F6;
+      color: #374151;
+    }
+
+    .lang-tag.active {
+      background: #C41E3A;
+      color: #FFFFFF;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 5 — TYPOGRAPHY: 霞鹜文楷
+       col 1, row 3 | warm cream
+       ═══════════════════════════════════════════ */
+    .card-typography {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+      background: #F5F0EB;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .typo-name {
+      font-family: 'LXGW WenKai', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1C1917;
+      line-height: 1.3;
+      margin-top: 6px;
+    }
+
+    .typo-sample {
+      font-family: 'LXGW WenKai', cursive;
+      font-size: 72px;
+      font-weight: 400;
+      color: #C41E3A;
+      opacity: 0.1;
+      position: absolute;
+      right: 10px;
+      bottom: 36px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .typo-zero {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: #D97706;
+      line-height: 1;
+    }
+
+    .typo-zero-unit {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      color: #6B7280;
+      font-weight: 500;
+    }
+
+    .typo-zero-label {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      color: #9CA3AF;
+      margin-top: 3px;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 6 — ALIPAY: 支付宝
+       col 2, row 3 | white
+       ═══════════════════════════════════════════ */
+    .card-alipay {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+      background: #FFFFFF;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .alipay-name {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #1677FF;
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+
+    .alipay-cny {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .alipay-cny-symbol {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1C1917;
+    }
+
+    .alipay-cny-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1C1917;
+    }
+
+    .alipay-auto {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      color: #9CA3AF;
+      margin-left: 6px;
+    }
+
+    .alipay-detail {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      color: #6B7280;
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 7 — SCREENSHOT 2: Founder Page
+       cols 3-4, row 3
+       ═══════════════════════════════════════════ */
+    .card-screenshot-2 {
+      grid-column: 3 / 5;
+      grid-row: 3 / 4;
+      background: #F5F0EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-screenshot-2 .avatar-frame {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+
+    .card-screenshot-2 .avatar-frame img {
+      width: 115%;
+      height: 115%;
+      margin: -7.5% 0 0 -7.5%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 8 — QUOTE: Joe's Words
+       cols 1-2, row 4 | dark + accent bar
+       ═══════════════════════════════════════════ */
+    .card-quote {
+      grid-column: 1 / 3;
+      grid-row: 4 / 5;
+      background: #1C1917;
+      padding: 28px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-mark {
+      color: #C41E3A;
+      font-size: 32px;
+    }
+
+    .quote-author {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 9 — SWITCHER: Language Dropdown
+       col 3, row 4 | white
+       ═══════════════════════════════════════════ */
+    .card-switcher {
+      grid-column: 3 / 4;
+      grid-row: 4 / 5;
+      background: #FFFFFF;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .switcher-dropdown {
+      border: 1.5px solid #E5E7EB;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .switcher-item {
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .switcher-item:last-child {
+      border-bottom: none;
+    }
+
+    .switcher-item.active {
+      background: #FEF2F2;
+      color: #C41E3A;
+      font-weight: 600;
+    }
+
+    .switcher-item .check {
+      color: #C41E3A;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .switcher-globe {
+      opacity: 0.4;
+      font-size: 14px;
+      margin-right: 6px;
+    }
+
+    .switcher-auto {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      color: #9CA3AF;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 10 — GFW: Network Detection
+       col 4, row 4 | warm cream
+       ═══════════════════════════════════════════ */
+    .card-gfw {
+      grid-column: 4 / 5;
+      grid-row: 4 / 5;
+      background: #F5F0EB;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .gfw-title {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .gfw-title-big {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: #1C1917;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .gfw-title-sub {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6B7280;
+    }
+
+    .gfw-status {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .gfw-status-item {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gfw-status-item .dot-green {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      flex-shrink: 0;
+    }
+
+    .gfw-status-item .dot-yellow {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #EAB308;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 11 — PRACTICE LOOP: How it works
+       col 1, row 5
+       ═══════════════════════════════════════════ */
+    .card-loop {
+      grid-column: 1 / 2;
+      grid-row: 5 / 6;
+      background: #1C1917;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .loop-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .loop-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .loop-step .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(217, 119, 6, 0.2);
+      color: #D97706;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .loop-step-title {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      flex-shrink: 0;
+      width: 65px;
+    }
+
+    .loop-step-desc {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.3);
+      margin-left: auto;
+    }
+
+    .loop-tagline {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 12 — FESTIVE: 新春快乐
+       col 2, row 5 | red gradient
+       ═══════════════════════════════════════════ */
+    .card-festive {
+      grid-column: 2 / 3;
+      grid-row: 5 / 6;
+      background: linear-gradient(150deg, #D42B2B 0%, #C41E3A 40%, #8B1528 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    .card-festive::before {
+      content: '福';
+      position: absolute;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 180px;
+      font-weight: 900;
+      color: rgba(255, 215, 0, 0.07);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%) rotate(-12deg);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .festive-decoration {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.3;
+    }
+
+    .festive-decoration.top-right { top: 14px; right: 14px; }
+    .festive-decoration.bottom-left { bottom: 14px; left: 14px; }
+
+    .festive-title {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .festive-subtitle {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0.65;
+      margin-top: 10px;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .festive-year {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.35;
+      margin-top: 14px;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       CARD 13 — RELEASES: v0.1.6 + v0.1.7
+       cols 3-4, row 5 | white
+       ═══════════════════════════════════════════ */
+    .card-releases {
+      grid-column: 3 / 5;
+      grid-row: 5 / 6;
+      background: #FFFFFF;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .releases-cols {
+      display: flex;
+      gap: 24px;
+    }
+
+    .release-col {
+      flex: 1;
+    }
+
+    .release-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .release-pill.muted {
+      background: #F3F4F6;
+      color: #6B7280;
+    }
+
+    .release-pill.accent {
+      background: #C41E3A;
+      color: #FFFFFF;
+    }
+
+    .release-title {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1C1917;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .release-col.muted .release-title {
+      color: #6B7280;
+    }
+
+    .release-list {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: #6B7280;
+      line-height: 1.9;
+    }
+
+    .release-col.accent .release-list {
+      color: #374151;
+    }
+
+    .release-date {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: #9CA3AF;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- ────── CARD 1: HERO ────── -->
+    <div class="card card-hero">
+      <div class="hero-deco">福</div>
+      <div class="hero-label">
+        <img class="logo-img" src="./images/header-logo.png" alt="Joe Speaking">
+        <span>Joe Speaking</span>
+      </div>
+      <div class="hero-title">现已支持<span class="gradient">中文</span></div>
+      <div class="hero-subtitle">官网、关于页和更新日志现已支持简体中文和繁体中文</div>
+    </div>
+
+    <!-- ────── CARD 2: VERSION ────── -->
+    <div class="card card-version">
+      <div>
+        <div class="version-number">v0.1.7</div>
+        <div class="version-date">二月十六日</div>
+        <div class="version-year">2026</div>
+      </div>
+      <div class="version-pill">🧧 新春发布</div>
+    </div>
+
+    <!-- ────── CARD 3: PRODUCT — What is Joe Speaking ────── -->
+    <div class="card card-product">
+      <div class="card-label">AI 口语练习</div>
+      <div class="product-title">最拟真的<br>雅思口语模考</div>
+      <div class="product-desc">与 AI 自然对话，即时获得个性化反馈，费用仅为真人老师的百分之一。</div>
+      <div class="product-stats">
+        <div class="product-stat-item"><span class="accent">4.4</span>/5 评分</div>
+        <div class="product-stat-item"><span class="accent">50,000+</span> 学习者</div>
+        <div class="product-stat-item"><span class="accent">≈¥8</span>/次</div>
+      </div>
+    </div>
+
+    <!-- ────── CARD 4: STAT — 3 Languages ────── -->
+    <div class="card card-languages">
+      <div class="languages-inner">
+        <div class="languages-left">
+          <div class="card-label">语言支持</div>
+          <div><span class="stat-number languages-big">3</span><span class="languages-unit">种语言</span></div>
+          <div class="languages-subtitle">官网本地化</div>
+          <div class="languages-desc">首页 · 关于页 · 更新日志</div>
+        </div>
+        <div class="languages-right">
+          <div class="lang-check-item"><span class="check-icon">✓</span> English</div>
+          <div class="lang-check-item"><span class="check-icon">✓</span> 简体中文</div>
+          <div class="lang-check-item"><span class="check-icon">✓</span> 繁體中文</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────── CARD 5: TYPOGRAPHY — 霞鹜文楷 ────── -->
+    <div class="card card-typography">
+      <div>
+        <div class="card-label">字体适配</div>
+        <div class="typo-name">霞鹜文楷</div>
+      </div>
+      <div class="typo-sample">永</div>
+      <div>
+        <div class="typo-zero-label">开源中文手写体</div>
+        <div class="typo-zero-label">温暖而优雅</div>
+      </div>
+    </div>
+
+    <!-- ────── CARD 6: ALIPAY — 支付宝 ────── -->
+    <div class="card card-alipay">
+      <div>
+        <div class="card-label">支付方式</div>
+        <div class="alipay-name">支付宝</div>
+      </div>
+      <div>
+        <div class="alipay-cny">
+          <span class="alipay-cny-symbol">¥</span>
+          <span class="alipay-cny-label">CNY</span>
+          <span class="alipay-auto">自动检测</span>
+        </div>
+      </div>
+      <div class="alipay-detail">人民币直接支付，无需换算</div>
+    </div>
+
+    <!-- ────── CARD 7: SCREENSHOT — Founder Page ────── -->
+    <div class="card card-screenshot-2">
+      <div class="avatar-frame">
+        <img src="./images/joe-avatar.png" alt="关于创始人">
+      </div>
+    </div>
+
+    <!-- ────── CARD 8: QUOTE — Joe's Words ────── -->
+    <div class="card card-quote">
+      <div class="quote-text">
+        <span class="quote-mark">"</span>献给中文用户的<br>新春礼物。<span class="quote-mark">"</span>
+      </div>
+      <div class="quote-author">— Joe Speaking</div>
+    </div>
+
+    <!-- ────── CARD 9: SWITCHER — Language Dropdown ────── -->
+    <div class="card card-switcher">
+      <div class="card-label">语言切换</div>
+      <div class="switcher-dropdown">
+        <div class="switcher-item">
+          <span><span class="switcher-globe">🌐</span> English</span>
+        </div>
+        <div class="switcher-item active">
+          <span>简体中文</span>
+          <span class="check">✓</span>
+        </div>
+        <div class="switcher-item">
+          <span>繁體中文</span>
+        </div>
+      </div>
+      <div class="switcher-auto">浏览器语言自动检测</div>
+    </div>
+
+    <!-- ────── CARD 10: GFW — Network Detection ────── -->
+    <div class="card card-gfw">
+      <div>
+        <div class="card-label">网络适配</div>
+        <div class="gfw-title">
+          <span class="gfw-title-big">GFW</span>
+          <span class="gfw-title-sub">自动检测</span>
+        </div>
+      </div>
+      <div class="gfw-status">
+        <div class="gfw-status-item"><span class="dot-green"></span> API 连通</div>
+        <div class="gfw-status-item"><span class="dot-yellow"></span> CDN 检测中</div>
+        <div class="gfw-status-item"><span class="dot-green"></span> 推荐节点</div>
+      </div>
+    </div>
+
+    <!-- ────── CARD 11: PRACTICE LOOP — How it works ────── -->
+    <div class="card card-loop">
+      <div class="card-label" style="color: rgba(255,255,255,0.35);">练习闭环</div>
+      <div class="loop-steps">
+        <div class="loop-step"><span class="step-num">1</span><span class="loop-step-title">录音</span><span class="loop-step-desc">对着话题开口说</span></div>
+        <div class="loop-step"><span class="step-num">2</span><span class="loop-step-title">回顾</span><span class="loop-step-desc">逐字稿 + 音频回放</span></div>
+        <div class="loop-step"><span class="step-num">3</span><span class="loop-step-title">反馈</span><span class="loop-step-desc">AI 评分与建议</span></div>
+        <div class="loop-step"><span class="step-num">4</span><span class="loop-step-title">再来</span><span class="loop-step-desc">对比进步</span></div>
+      </div>
+      <div class="loop-tagline">同一话题，反复练习</div>
+    </div>
+
+    <!-- ────── CARD 12: FESTIVE — 新春快乐 ────── -->
+    <div class="card card-festive">
+      <div class="festive-decoration top-right">🧧</div>
+      <div class="festive-decoration bottom-left">✨</div>
+      <div class="festive-title">新春快乐</div>
+      <div class="festive-subtitle">马年大吉</div>
+      <div class="festive-year">— 2026 —</div>
+    </div>
+
+    <!-- ────── CARD 13: RELEASES — v0.1.6 + v0.1.7 ────── -->
+    <div class="card card-releases">
+      <div class="releases-cols">
+        <div class="release-col muted">
+          <div class="release-pill muted">v0.1.6</div>
+          <div class="release-title">中国支持与支付</div>
+          <div class="release-list">
+            · 支付宝人民币支付<br>
+            · GFW 网络诊断<br>
+            · 防卡死保护
+          </div>
+          <div class="release-date">Feb 14</div>
+        </div>
+        <div class="release-col accent">
+          <div class="release-pill accent">v0.1.7</div>
+          <div class="release-title">官网中文化</div>
+          <div class="release-list">
+            · 简体中文界面<br>
+            · 繁体中文界面<br>
+            · 语言自动检测
+          </div>
+          <div class="release-date">Feb 16</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

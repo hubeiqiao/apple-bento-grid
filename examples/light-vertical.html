@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Open Source Project Stats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Crosshatch texture */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-conic-gradient(rgba(0,0,0,0.015) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* === GRID — 2-col vertical (Template C) === */
+  .grid {
+    display: grid;
+    width: 600px;
+    padding: 18px;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas:
+      "hero       hero"
+      "stars      contributors"
+      "releases   uptime"
+      "highlight  highlight"
+      "quote      quote";
+  }
+
+  /* === CARD BASE (vertical sizing) === */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: #86868b;
+    line-height: 1.25;
+  }
+
+  /* === HERO === */
+  .card-hero {
+    grid-area: hero;
+    align-self: stretch;
+    padding: 22px 20px;
+  }
+
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1d1d1f, #6e6e73, #1d1d1f);
+    border-radius: 14px 14px 0 0;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #0071e3;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d1d1f;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #86868b;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #aeaeb2;
+    margin-top: 10px;
+  }
+
+  /* === STAT CARDS === */
+  .card-stars { grid-area: stars; }
+  .card-contributors { grid-area: contributors; }
+  .card-releases { grid-area: releases; }
+  .card-uptime { grid-area: uptime; }
+
+  .card-stat .num {
+    margin-bottom: 4px;
+  }
+
+  .card-stat .label {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  /* === HIGHLIGHT === */
+  .card-highlight {
+    grid-area: highlight;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    background: linear-gradient(145deg, #059669 0%, #34d399 60%, #6ee7b7 100%);
+    padding: 28px;
+  }
+
+  .card-highlight .num {
+    font-size: 52px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .card-highlight .label {
+    font-size: 15px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  .card-highlight .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+  }
+
+  /* === QUOTE === */
+  .card-quote {
+    grid-area: quote;
+    background: #1d1d1f;
+    padding: 20px 24px;
+    justify-content: center;
+  }
+
+  .quote-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .quote-text em {
+    color: #34d399;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- HERO — spans 2 columns -->
+    <div class="card card-hero">
+      <div class="hero-eyebrow">Open Source</div>
+      <div class="hero-tagline">Built by the</div>
+      <div class="hero-tagline">Community.</div>
+      <div class="hero-sub">Trusted at Scale.</div>
+      <div class="hero-date">GitHub Project Overview</div>
+    </div>
+
+    <!-- STATS — 4 cards, 2x2 -->
+    <div class="card card-stat card-stars">
+      <div class="num" style="font-size: 36px; color: #0071e3">2,847</div>
+      <div class="label">GitHub Stars</div>
+    </div>
+
+    <div class="card card-stat card-contributors">
+      <div class="num" style="font-size: 36px; color: #00b4d8">156</div>
+      <div class="label">Contributors</div>
+    </div>
+
+    <div class="card card-stat card-releases">
+      <div class="num" style="font-size: 36px; color: #34d399">48</div>
+      <div class="label">Releases Shipped</div>
+    </div>
+
+    <div class="card card-stat card-uptime">
+      <div class="num" style="font-size: 32px; color: #ff6b6b">99.7%</div>
+      <div class="label">Uptime Reliability</div>
+    </div>
+
+    <!-- HIGHLIGHT — spans 2 columns -->
+    <div class="card card-highlight">
+      <div class="num">10x</div>
+      <div class="label">Developer Productivity</div>
+      <div class="sub">Measured across teams using our tooling</div>
+    </div>
+
+    <!-- QUOTE — spans 2 columns -->
+    <div class="card card-quote">
+      <div class="quote-text">"Ship <em>faster</em>, build <em>together</em>, scale with <em>confidence</em>."</div>
+    </div>
+
+  </div>
+</body>
+</html>

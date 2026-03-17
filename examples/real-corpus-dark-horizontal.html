@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joe Hu: The Full Corpus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0a0b;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-conic-gradient(rgba(255,255,255,0.012) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .grid {
+    display: grid;
+    width: 1200px;
+    padding: 28px;
+    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1.2fr 1fr 1fr 0.85fr 0.85fr;
+    grid-template-areas:
+      "hero     hero     timeline timeline"
+      "days79   convos   timeline timeline"
+      "fiveyr   words    tweets   langshift"
+      "quote    quote    tags     langshift"
+      "quote    quote    tags     langshift";
+    aspect-ratio: 52 / 30;
+  }
+
+  /* === DARK CARD BASE === */
+  .card {
+    background: #18181b;
+    border-radius: 18px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: #71717a;
+    line-height: 1.3;
+  }
+
+  .label strong {
+    color: #a1a1aa;
+    font-weight: 600;
+  }
+
+  /* === HERO === */
+  .card-hero {
+    grid-area: hero;
+    align-self: stretch;
+    padding: 28px 28px 24px;
+    overflow: visible;
+  }
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0071e3, #34d399, #00b4d8);
+    border-radius: 18px 18px 0 0;
+  }
+  .hero-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    margin-top: 2px;
+  }
+  .hero-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2.5px solid #34d399;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);
+  }
+  .hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.01em;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #34d399;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .hero-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #52525b;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #52525b;
+    margin-top: 14px;
+  }
+  .hero-date span {
+    color: #a1a1aa;
+    font-weight: 600;
+  }
+
+  /* === TIMELINE CHART === */
+  .card-timeline {
+    grid-area: timeline;
+    align-self: stretch;
+    padding: 20px 22px;
+  }
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .chart-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #71717a;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .chart-badge {
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #34d399;
+  }
+  .timeline-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+    justify-content: space-evenly;
+  }
+  .tl-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tl-year {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #71717a;
+    width: 34px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .tl-bar {
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .tl-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #a1a1aa;
+    white-space: nowrap;
+  }
+  .tl-label em {
+    font-style: normal;
+    color: #71717a;
+  }
+
+  /* === STAT CARDS === */
+  .card-days79 { grid-area: days79; }
+  .card-convos { grid-area: convos; }
+  .card-words { grid-area: words; }
+  .card-tweets { grid-area: tweets; }
+
+  /* === FIVE-YEAR PLAN HIGHLIGHT === */
+  .card-fiveyr {
+    grid-area: fiveyr;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    background: linear-gradient(145deg, #059669 0%, #34d399 60%, #6ee7b7 100%);
+    padding: 18px 16px;
+  }
+  .fiveyr-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 4px;
+  }
+  .fiveyr-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+  }
+  .fiveyr-step {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+  }
+  .fiveyr-step .age {
+    font-weight: 800;
+    font-size: 13px;
+  }
+
+  /* === LANGUAGE SHIFT === */
+  .card-langshift {
+    grid-area: langshift;
+    padding: 20px 22px;
+  }
+  .lang-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #71717a;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .lang-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+  }
+  .lang-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .lang-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .lang-year {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #a1a1aa;
+    flex-shrink: 0;
+  }
+  .lang-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    color: #52525b;
+    text-align: right;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .lang-bar-track {
+    width: 100%;
+    height: 10px;
+    background: #27272a;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+  }
+  .lang-bar-zh {
+    height: 100%;
+    background: linear-gradient(90deg, #f87171, #ef4444);
+    border-radius: 5px 0 0 5px;
+  }
+  .lang-bar-bi {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  }
+  .lang-bar-en {
+    height: 100%;
+    background: linear-gradient(90deg, #34d399, #059669);
+    border-radius: 0 5px 5px 0;
+  }
+  .lang-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .lang-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .lang-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .lang-legend-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #71717a;
+  }
+  .lang-footer {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    font-style: italic;
+    color: #52525b;
+    margin-top: auto;
+    padding-top: 8px;
+    white-space: nowrap;
+  }
+
+  /* === QUOTE === */
+  .card-quote {
+    grid-area: quote;
+    background: linear-gradient(145deg, #1d1d1f 0%, #0f0f10 100%);
+    padding: 22px 28px;
+    justify-content: space-evenly;
+    border: 1px solid #27272a;
+  }
+  .quote-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fafafa;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .quote-text em {
+    color: #34d399;
+    font-style: normal;
+  }
+  .quote-sub {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #71717a;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .quote-sub em {
+    color: #00b4d8;
+    font-style: normal;
+  }
+  .quote-footer {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: #3f3f46;
+    line-height: 1.4;
+    border-top: 1px solid #27272a;
+    padding-top: 8px;
+  }
+  .quote-footer strong {
+    color: #52525b;
+    font-weight: 600;
+  }
+  .quote-footer em {
+    font-style: italic;
+    color: #52525b;
+  }
+
+  /* === TAGS === */
+  .card-tags {
+    grid-area: tags;
+    padding: 18px 20px;
+    justify-content: center;
+  }
+  .tags-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #71717a;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #a1a1aa;
+    background: #27272a;
+    border-radius: 100px;
+    padding: 4px 10px;
+    margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+  .pill.accent-blue { color: #60a5fa; background: rgba(96,165,250,0.12); }
+  .pill.accent-green { color: #34d399; background: rgba(52,211,153,0.12); }
+  .pill.accent-cyan { color: #22d3ee; background: rgba(34,211,238,0.12); }
+  .pill.accent-amber { color: #fbbf24; background: rgba(251,191,36,0.12); }
+  .pill.accent-red { color: #f87171; background: rgba(248,113,113,0.12); }
+  .pill.accent-purple { color: #a78bfa; background: rgba(167,139,250,0.12); }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <!-- HERO — spans 2 columns -->
+    <div class="card card-hero">
+      <div class="hero-top">
+        <img class="hero-avatar" src="https://pbs.twimg.com/profile_images/2001521782705008640/2g3LZPzs.jpg" alt="Joe Hu" />
+        <div class="hero-meta">
+          <div class="hero-name">Joe Hu</div>
+          <div class="hero-eyebrow">12 years of tweets, blogs &amp; posts &middot; 2014 &ndash; 2026</div>
+        </div>
+      </div>
+      <div class="hero-tagline">Explorer. Builder. <span style="color:#52525b">Founder.</span></div>
+      <div class="hero-date">Sichuan &rarr; Hangzhou &rarr; Beijing &rarr; Ottawa &nbsp;&middot;&nbsp; <span>4 cities</span> &middot; <span>2 countries</span> &middot; <span>12 years</span></div>
+      <div style="position:absolute; top:20px; right:24px; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; color:#52525b; text-align:right"><span style="color:#71717a">hubeiqiao.com</span><br><span style="color:#52525b">@hubeiqiao</span><br><span style="color:#3f3f46; font-size:9px; font-weight:500">Data as of Mar 2026</span></div>
+    </div>
+
+    <!-- TIMELINE CHART — spans 2 columns, 2 rows -->
+    <div class="card card-timeline">
+      <div class="chart-header">
+        <div class="chart-title">The Arc &middot; from 7,128 posts on X</div>
+        <div class="chart-badge">12 years</div>
+      </div>
+      <div class="timeline-rows">
+        <div class="tl-row">
+          <div class="tl-year" style="font-size:9px">14-16</div>
+          <div class="tl-bar" style="width: 75px; background: linear-gradient(90deg, #a7f3d0, #6ee7b7)"></div>
+          <div class="tl-label">Smartisan T1 fan &rarr; viral OS presentation &rarr; internship &rarr; PM &middot; HandShaker <em>&middot; 2,115</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2018</div>
+          <div class="tl-bar" style="width: 62px; background: linear-gradient(90deg, #34d399, #059669)"></div>
+          <div class="tl-label">Meituan PM &middot; commercial Android &middot; 1M+ POS &middot; 3 patents <em>&middot; 782</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2020</div>
+          <div class="tl-bar" style="width: 61px; background: linear-gradient(90deg, #f87171, #ef4444)"></div>
+          <div class="tl-label">COVID catalyst &middot; five-year plan &middot; restarted English &middot; Plan B <em>&middot; 764</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2022</div>
+          <div class="tl-bar" style="width: 42px; background: linear-gradient(90deg, #fbbf24, #f59e0b)"></div>
+          <div class="tl-label">Passed IELTS &middot; ChatGPT arrives &middot; first English blog <em>&middot; 533</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2023</div>
+          <div class="tl-bar" style="width: 85px; background: linear-gradient(90deg, #60a5fa, #3b82f6)"></div>
+          <div class="tl-label">NZ confidence trip &middot; IELTS Simulator GPT &middot; open source &middot; viral <em>&middot; 1,068</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2024</div>
+          <div class="tl-bar" style="width: 95px; background: linear-gradient(90deg, #22d3ee, #06b6d4)"></div>
+          <div class="tl-label">Left Meituan after 2,298 days &middot; Beijing &rarr; Ottawa &middot; Carleton TIM <em>&middot; 1,193</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2025</div>
+          <div class="tl-bar" style="width: 120px; background: linear-gradient(90deg, #34d399, #059669)"></div>
+          <div class="tl-label">Vibe engineer &middot; 7 products &middot; Bay Area &middot; hackathons &middot; talks <em>&middot; 1,502</em></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-year">2026</div>
+          <div class="tl-bar" style="width: 19px; background: linear-gradient(90deg, #059669, #047857)"></div>
+          <div class="tl-label">Just Joe Technologies &middot; Joe Speaking &middot; founder phase <em>&middot; 239</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAT: 79 Days -->
+    <div class="card card-days79">
+      <div class="num" style="font-size: 40px; color: #34d399; margin-bottom: 6px">79 Days</div>
+      <div class="label" style="font-size: 11px">One person built what costs <strong style="color:#71717a">$1.5M/yr</strong> to staff.<br><strong>549K+ lines</strong> &middot; <strong>345 features</strong><br>Cost: <strong style="color: #f87171">2 months of Claude Max</strong></div>
+    </div>
+
+    <!-- STAT: 100,000+ -->
+    <div class="card card-convos">
+      <div class="num" style="font-size: 36px; color: #0071e3; margin-bottom: 6px">100,000+</div>
+      <div class="label" style="font-size: 11px">Conversations from a shower idea.<br>IELTS Simulator &middot; <strong>4.4/5</strong> &middot; open source<br>Went viral on RedNote</div>
+    </div>
+
+    <!-- FIVE-YEAR PLAN HIGHLIGHT -->
+    <div class="card card-fiveyr">
+      <div class="fiveyr-title">The Five-Year Plan</div>
+      <div class="fiveyr-steps">
+        <div class="fiveyr-step"><span class="age">2019</span> set the plan</div>
+        <div class="fiveyr-step"><span class="age">2022</span> passed IELTS</div>
+        <div class="fiveyr-step"><span class="age">2024</span> landed in Ottawa</div>
+        <div class="fiveyr-step"><span class="age">2026</span> founded a company</div>
+      </div>
+    </div>
+
+    <!-- STAT: 82,749 Words -->
+    <div class="card card-words">
+      <div class="num" style="font-size: 38px; color: #00b4d8; margin-bottom: 6px">82,749</div>
+      <div class="label" style="font-size: 12px">Words across <strong>72 blog posts</strong><br>Chinese &rarr; bilingual &rarr; English-only<br><strong>5.5 years</strong> of thinking in public</div>
+    </div>
+
+    <!-- STAT: 10,530 Tweets -->
+    <div class="card card-tweets">
+      <div class="num" style="font-size: 38px; color: #a78bfa; margin-bottom: 6px">10,530</div>
+      <div class="label" style="font-size: 12px">Posts across <strong>12 years</strong> on X<br>Chinese tech fanboy &rarr; English founder<br>Most liked: <strong>763 &hearts;</strong> on the simulator</div>
+    </div>
+
+    <!-- LANGUAGE SHIFT — spans 3 rows -->
+    <div class="card card-langshift">
+      <div class="lang-title">Language Shift</div>
+      <div class="lang-rows">
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2020</div>
+            <div class="lang-desc">Restarted English learning</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 95%"></div>
+            <div class="lang-bar-en" style="width: 5%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2021</div>
+            <div class="lang-desc">IELTS prep begins</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 85%"></div>
+            <div class="lang-bar-bi" style="width: 5%"></div>
+            <div class="lang-bar-en" style="width: 10%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2022</div>
+            <div class="lang-desc">First English blog post after ChatGPT</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 70%"></div>
+            <div class="lang-bar-bi" style="width: 15%"></div>
+            <div class="lang-bar-en" style="width: 15%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2023</div>
+            <div class="lang-desc">NZ trip confidence boost</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 40%"></div>
+            <div class="lang-bar-bi" style="width: 25%"></div>
+            <div class="lang-bar-en" style="width: 35%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2024</div>
+            <div class="lang-desc">Moved to Canada</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 20%"></div>
+            <div class="lang-bar-bi" style="width: 15%"></div>
+            <div class="lang-bar-en" style="width: 65%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2025</div>
+            <div class="lang-desc">English-only blog posts</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 10%"></div>
+            <div class="lang-bar-bi" style="width: 5%"></div>
+            <div class="lang-bar-en" style="width: 85%"></div>
+          </div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-header">
+            <div class="lang-year">2026</div>
+            <div class="lang-desc">Founded a company in English</div>
+          </div>
+          <div class="lang-bar-track">
+            <div class="lang-bar-zh" style="width: 5%"></div>
+            <div class="lang-bar-bi" style="width: 5%"></div>
+            <div class="lang-bar-en" style="width: 90%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="lang-legend">
+        <div class="lang-legend-item">
+          <div class="lang-legend-dot" style="background: #ef4444"></div>
+          <div class="lang-legend-text">Chinese</div>
+        </div>
+        <div class="lang-legend-item">
+          <div class="lang-legend-dot" style="background: #f59e0b"></div>
+          <div class="lang-legend-text">Bilingual</div>
+        </div>
+        <div class="lang-legend-item">
+          <div class="lang-legend-dot" style="background: #34d399"></div>
+          <div class="lang-legend-text">English</div>
+        </div>
+      </div>
+      <div class="lang-footer">"Language is for communication, not perfection."</div>
+    </div>
+
+    <!-- QUOTE — spans 2 columns, 2 rows -->
+    <div class="card card-quote">
+      <div class="quote-text">"<em>High-agency</em> people will thrive."</div>
+      <div class="quote-sub">"The <em>pathless path</em> is the way."</div>
+      <div style="display:flex; flex-wrap:wrap; gap:3px; margin-top:10px; margin-bottom:8px">
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#34d399; background:rgba(52,211,153,0.1)">Seeking a reachable future in uncertainty</span>
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#60a5fa; background:rgba(96,165,250,0.1)">The best learning comes from doing</span>
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#fbbf24; background:rgba(251,191,36,0.1)">We choose every day who we become</span>
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#a78bfa; background:rgba(167,139,250,0.1)">Version 1 is for yourself</span>
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#22d3ee; background:rgba(34,211,238,0.1)">In-person is the new online</span>
+<span class="pill" style="font-size:8px; padding:2px 7px; color:#34d399; background:rgba(52,211,153,0.1)">Build what belongs to yourself</span>
+        <span class="pill" style="font-size:8px; padding:2px 7px; color:#00b4d8; background:rgba(0,180,216,0.1)">Everyone will have the power</span>
+      </div>
+      <div class="quote-footer">
+        Mined from <strong>7,128 tweets</strong> &middot; <strong>3,382 replies</strong> &middot; <strong>254 LinkedIn posts</strong> &middot; <strong>72 blog posts</strong><br>
+        <em>All data sourced from Joe's public corpus &middot; 2014&ndash;2026</em>
+      </div>
+    </div>
+
+    <!-- TAGS — spans 2 rows -->
+    <div class="card card-tags">
+      <div class="tags-title">Identity Threads</div>
+      <div class="pills-wrap">
+        <span class="pill accent-green">product-first</span>
+        <span class="pill accent-blue">AI-native</span>
+        <span class="pill accent-cyan">immigrant</span>
+        <span class="pill accent-green">vibe engineer</span>
+        <span class="pill accent-amber">INFJ</span>
+        <span class="pill">writer</span>
+        <span class="pill accent-purple">WoW</span>
+        <span class="pill accent-cyan">pathless path</span>
+        <span class="pill accent-blue">anime</span>
+        <span class="pill accent-red">Japan lover</span>
+        <span class="pill">solo founder</span>
+        <span class="pill accent-amber">Claude Code</span>
+        <span class="pill accent-red">Pokemon Go</span>
+        <span class="pill">cycling</span>
+        <span class="pill accent-purple">podcast lover</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
