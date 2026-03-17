@@ -1,0 +1,16 @@
+{
+  "name": "apple-bento-grid-marketplace",
+  "owner": {
+    "name": "Joe Hu"
+  },
+  "metadata": {
+    "description": "Apple-inspired bento grid presentation cards for AI coding agents"
+  },
+  "plugins": [
+    {
+      "name": "apple-bento-grid",
+      "source": "./",
+      "description": "Generate Apple-inspired bento grid presentation cards"
+    }
+  ]
+}

@@ -34,13 +34,24 @@ All made with this skill — just describe your data and get pixel-perfect outpu
 
 ## Installation
 
+### Claude Code Plugin (recommended)
+
+```bash
+/plugin marketplace add hubeiqiao/apple-bento-grid
+/plugin install apple-bento-grid@apple-bento-grid-marketplace
+```
+
+### Agent Skills
+
 Install from the [Agent Skills Directory](https://skills.sh):
 
 ```bash
 npx skills add hubeiqiao/apple-bento-grid
 ```
 
-Or clone directly into your Claude Code skills directory:
+### Manual
+
+Clone directly into your Claude Code skills directory:
 
 ```bash
 git clone https://github.com/hubeiqiao/apple-bento-grid.git ~/.claude/skills/apple-bento-grid

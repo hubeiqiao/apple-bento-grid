@@ -1,0 +1,12 @@
+{
+  "name": "apple-bento-grid",
+  "description": "Generate Apple-inspired bento grid presentation cards. Feed it a doc, a report, or just describe your data.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Joe Hu"
+  },
+  "homepage": "https://github.com/hubeiqiao/apple-bento-grid",
+  "repository": "https://github.com/hubeiqiao/apple-bento-grid",
+  "license": "MIT",
+  "keywords": ["bento-grid", "apple-design", "data-visualization", "presentation"]
+}
