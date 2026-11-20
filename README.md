@@ -36,7 +36,7 @@ All made with this skill — just describe your data and get pixel-perfect outpu
 
 **Version update carousel** — 3:4 (1080×1440) for 小红书 / Instagram, premium light style with a bento cover
 
-Joe Speaking 1.5 is built around the learner's IELTS speaking goal: practice is planned toward a target band, and the app shows the gap to that target, which ability to work on next, and whether a retry actually helped. It tracks weekly speaking time and practice streaks, lets learners reuse their own Part 2 stories with ChatGPT or 豆包, and lets them ask AI to plan what to practise next. Detailed feedback can now come from Gemini, GPT or Claude, with the default model using about 20% fewer credits, and learners with 5+ practice days scored +0.35 higher on average when re-tested (a figure the app itself shows).
+Joe Speaking 1.5 is built around the learner's IELTS speaking goal: practice is planned toward a target band, and the app shows the gap to that target, which ability to work on next, and whether a retry actually helped. It tracks weekly speaking time and practice streaks, lets learners ask the AI they already use (ChatGPT, 豆包 and others) to stitch one practised Part 2 story across several questions, and lets them ask AI to plan what to practise next. Detailed feedback can now come from Gemini, GPT or Claude, with the default model using about 20% fewer credits, and learners with 5+ practice days scored +0.35 higher on average when re-tested (a figure the app itself shows).
 
 | Bento cover | Full update summary |
 |-------------|---------------------|

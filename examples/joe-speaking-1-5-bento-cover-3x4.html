@@ -147,7 +147,7 @@ body{width:1080px;height:1440px;overflow:hidden;background:#f5f5f7;color:var(--i
 
 /* cover variant: headline on top third, condensed bento below */
 body{position:relative}
-.top{position:absolute;left:0;right:0;top:0;height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.top{position:absolute;left:0;right:0;top:0;height:452px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .top h1{font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
 .top h1 .l1{display:block;font-size:136px;line-height:1.1}
 .top h1 .l2{display:block;font-size:90px;line-height:1.2;margin-top:6px}
@@ -156,8 +156,8 @@ body{position:relative}
 .top .brand{display:flex;align-items:center;justify-content:center;margin-top:22px;font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;font-size:40px;color:var(--ink)}
 .top .brand img{width:64px;height:64px;border-radius:15px;margin-right:16px;box-shadow:0 6px 16px -8px rgba(120,60,20,.35)}
 .top .brand .num{font-size:42px;margin:0 8px}
-.grid{position:absolute;left:0;bottom:0;height:970px;padding:12px 32px 32px;
-  grid-template-rows:211px 230px 241px 1fr !important;
+.grid{position:absolute;left:0;bottom:0;height:988px;padding:12px 32px 32px;
+  grid-template-rows:211px 230px 259px 1fr !important;
   grid-template-areas:
     "goal goal plus"
     "goal goal gap"
@@ -173,6 +173,11 @@ body{position:relative}
 .gap .still{margin-top:8px;padding-top:8px}
 .mini-home{padding:10px 14px 12px}
 .mini-home .btn{margin-top:8px}
+
+/* Part 2 tile: title + small note + three pills */
+.part2 .story{background:#FAFAFB;border:1px solid var(--line);border-radius:14px;padding:9px 12px;font-size:16px;color:var(--ink2);line-height:1.45}
+.part2 .pills{display:flex;gap:6px;margin-top:10px}
+.part2 .pill{font-size:19px;padding:7px 13px}
 </style>
 </head>
 <body>
@@ -223,9 +228,10 @@ body{position:relative}
 
 
   <div class="card part2">
-    <div class="t">Part 2 用熟悉的<br>故事串题</div>
+    <div class="t">请你常用的 AI<br>帮你串题</div>
     <div class="v">
-      <div class="pills"><span class="pill o">ChatGPT</span><span class="pill o">豆包</span></div>
+      <div class="story">用你练过的 Part 2 素材，<br>一段经历套多道题</div>
+      <div class="pills"><span class="pill o">ChatGPT</span><span class="pill o">豆包</span><span class="pill o">更多</span></div>
     </div>
   </div>
 
