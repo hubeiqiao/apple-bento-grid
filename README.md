@@ -32,6 +32,16 @@ All made with this skill — just describe your data and get pixel-perfect outpu
 |--------------|--------------|-------------------|
 | ![Project vertical](examples/real-project-light-vertical.webp) | ![Light vertical](examples/light-vertical.png) | ![Corpus vertical](examples/real-corpus-dark-vertical.jpg) |
 
+### Example: Joe Speaking 1.5 update
+
+**Version update carousel** — 3:4 (1080×1440) for 小红书 / Instagram, premium light style with a bento cover
+
+Joe Speaking 1.5 is built around the learner's IELTS speaking goal: practice is planned toward a target band, and the app shows the gap to that target, which ability to work on next, and whether a retry actually helped. It tracks weekly speaking time and practice streaks, lets learners reuse their own Part 2 stories with ChatGPT or 豆包, and lets them ask AI to plan what to practise next. Detailed feedback can now come from Gemini, GPT or Claude, with the default model using about 20% fewer credits, and learners with 5+ practice days scored +0.35 higher on average when re-tested (a figure the app itself shows).
+
+| Bento cover | Full update summary |
+|-------------|---------------------|
+| ![Joe Speaking 1.5 bento cover](examples/joe-speaking-1-5-bento-cover-3x4.png) | ![Joe Speaking 1.5 bento](examples/joe-speaking-1-5-bento-3x4.png) |
+
 ## Installation
 
 ### Claude Code Plugin (recommended)
@@ -105,6 +115,7 @@ The skill will:
 - **Logo & image support** — Add your own logos, product screenshots, or avatars
 - **Screenshot export** — Playwright script for 2x Retina-quality PNGs
 - **Zero dependencies** — Each output is a single HTML file with inline CSS
+- **Premium social style** — Gradient tiles, glow, gradient numbers, UI vignettes, brand header and a 3:4 bento cover for 小红书 / Instagram
 
 ## Card Types
 
@@ -154,6 +165,8 @@ Edit the `pages` array in `screenshot.mjs` to point to your HTML files.
 - [`real-corpus-dark-horizontal.html`](examples/real-corpus-dark-horizontal.html) — Personal data dashboard, 10 cards
 - [`real-corpus-dark-vertical.html`](examples/real-corpus-dark-vertical.html) — Same content, portrait format
 - [`real-cny-2026-square.html`](examples/real-cny-2026-square.html) — Chinese New Year launch, 1200x1200 square
+- [`joe-speaking-1-5-bento-3x4.html`](examples/joe-speaking-1-5-bento-3x4.html) — Version-update summary, premium light, 1080x1440 (3:4)
+- [`joe-speaking-1-5-bento-cover-3x4.html`](examples/joe-speaking-1-5-bento-cover-3x4.html) — Bento cover: heavy CJK headline + 8 tiles, 1080x1440 (3:4)
 
 ## Project Structure
 

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>1.5 更新一览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* apple-bento-grid, light theme, 3-col portrait at 1080x1440 (RedNote 3:4).
+   Only what 1.5 changed. Numbers inside vignettes are UI illustrations, not stats;
+   +0.35 is the figure the app itself shows. Brand orange = primary gradient; orb colours = AI tile. */
+:root{
+  --o1:#FFB26B; --o2:#F2701E; --o3:#D9480F;
+  --ink:#1d1d1f; --ink2:#6e6e73; --ink3:#aeaeb2; --line:#ececf0;
+  --grad:linear-gradient(135deg,var(--o1) 0%,var(--o2) 55%,var(--o3) 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;height:1440px;overflow:hidden;background:#f5f5f7;color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB",'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+.grid{display:grid;width:1080px;height:1440px;padding:32px;gap:12px;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:128px repeat(5,1fr);
+  grid-template-areas:
+    "head head head"
+    "goal goal next"
+    "goal goal gap"
+    "crit retry week"
+    "time part2 ai"
+    "models models plus"}
+.card{position:relative;overflow:hidden;border-radius:30px;background:#fff;padding:26px 26px 24px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px -12px rgba(120,60,20,.14);display:flex;flex-direction:column}
+.card::before{content:"";position:absolute;inset:auto -30% -55% auto;width:80%;height:90%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(242,112,30,.10),rgba(242,112,30,0));pointer-events:none}
+.t{font-weight:700;font-size:29px;line-height:1.28;letter-spacing:-.01em;word-break:keep-all;position:relative}
+.v{margin-top:auto;position:relative}
+.num{font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-.035em;line-height:1}
+.gnum{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.muted{color:var(--ink2)}
+.pill{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:22px;border-radius:999px;padding:8px 16px;background:#f2f2f5;color:#48484d;white-space:nowrap}
+.pill.o{background:#FFF0E3;color:#C2410C}
+
+/* header */
+.head{grid-area:head;flex-direction:row;align-items:center;justify-content:center;padding:0 34px;background:#fff}
+.head .h{font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;font-size:50px;letter-spacing:-.02em;display:flex;align-items:center}
+.head .logo{width:88px;height:88px;margin-right:22px;border-radius:20px;position:relative;top:2px;box-shadow:0 6px 16px -8px rgba(120,60,20,.35)}
+.head .h .num{font-size:54px;margin:0 4px}
+.head .dots{display:flex;gap:8px}
+.head .dots i{width:14px;height:14px;border-radius:50%;background:var(--grad);opacity:.9}
+.head .dots i:nth-child(2){opacity:.55}.head .dots i:nth-child(3){opacity:.3}
+
+/* big goal tile */
+.goal{grid-area:goal;background:radial-gradient(120% 90% at 100% 0%,#FFD9B8 0%,rgba(255,217,184,0) 60%),linear-gradient(160deg,#FFF7F0 0%,#FFE9D8 100%);padding:34px}
+.goal::before{inset:auto auto -40% -20%;width:90%;height:80%;background:radial-gradient(closest-side,rgba(242,112,30,.18),rgba(242,112,30,0))}
+.goal .t{font-size:44px;line-height:1.2}
+.goal .vcard{margin-top:auto;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);border-radius:26px;padding:26px 28px;box-shadow:0 18px 40px -18px rgba(180,80,20,.35)}
+.goal .row{display:flex;align-items:flex-end;justify-content:space-between}
+.goal .lab{font-size:22px;color:var(--ink2);font-weight:500}
+.goal .big{font-size:112px}
+.goal .bar{position:relative;height:18px;border-radius:9px;background:#F3E7DD;margin-top:26px}
+.goal .bar b{position:absolute;left:0;top:0;bottom:0;width:72%;border-radius:9px;background:var(--grad)}
+.goal .bar u{position:absolute;left:86%;top:-10px;width:4px;height:38px;border-radius:2px;background:var(--ink)}
+.goal .ticks{display:flex;justify-content:space-between;margin-top:16px;font-size:20px;color:var(--ink3);font-family:'Sora',sans-serif}
+.goal .ticks .tg{color:var(--ink);font-weight:700;font-family:"PingFang SC",sans-serif;margin-left:auto;margin-right:9%}
+
+/* next */
+.next{grid-area:next}
+.mini-home{margin-top:auto;background:var(--grad);border-radius:18px;padding:12px 16px 14px;color:#fff;box-shadow:0 14px 28px -14px rgba(217,72,15,.6)}
+.mini-home .k{font-size:17px;opacity:.9}
+.mini-home .q{font-size:20px;font-weight:700;margin-top:4px;line-height:1.3}
+.mini-home .btn{margin-top:10px;background:#fff;color:#C2410C;border-radius:999px;text-align:center;font-size:18px;font-weight:700;padding:8px 0}
+
+/* gap */
+.gap{grid-area:gap}
+.range{font-size:52px}
+.gap .still{display:flex;align-items:baseline;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:20px;color:var(--ink2)}
+.gap .still .num{font-size:30px;color:var(--ink)}
+
+/* criteria */
+.crit{grid-area:crit}
+.cb{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px 10px;font-size:18px;color:var(--ink2)}
+.cb .tr{height:12px;border-radius:6px;background:#f0f0f3;position:relative}
+.cb .tr b{position:absolute;inset:0 auto 0 0;border-radius:6px;background:#d7d7dd}
+.cb .tr.lo b{background:var(--grad)}
+.cb .lo-l{color:#C2410C;font-weight:700}
+
+/* retry bars */
+.retry{grid-area:retry}
+.bars{display:flex;align-items:flex-end;gap:12px;height:96px}
+.bars div{flex:1;border-radius:8px 8px 4px 4px;background:#FFD7B5;position:relative}
+.bars div:last-child{background:var(--grad)}
+.bars div span{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font:600 17px 'Sora',sans-serif;color:var(--ink2)}
+.bars div:last-child span{color:#C2410C}
+.dash{position:relative;border-top:2px dashed #e5d6c9;margin-bottom:-2px}
+
+/* week streak */
+.week{grid-area:week}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.days i{aspect-ratio:1;border-radius:9px;background:#f2f2f5;border:1.5px solid #ececf0;display:grid;place-items:center;font-style:normal;color:#fff;font-size:16px;font-weight:800}
+.days i.on{background:var(--grad);border-color:transparent}
+.days i.on.l{background:#FFC796}
+.streak{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:20px;color:var(--ink2)}
+.streak b{width:10px;height:10px;border-radius:50%;background:var(--o2)}
+.streak .num{font-size:26px;color:var(--ink)}
+
+/* time */
+.time{grid-area:time}
+.wk{display:flex;align-items:flex-end;gap:8px;height:96px;border-bottom:1.5px solid var(--line)}
+.wk div{flex:1;border-radius:6px 6px 2px 2px;background:#FFDDBF}
+.wk div.n{background:var(--grad)}
+.wkl{display:flex;justify-content:space-between;font-size:16px;color:var(--ink3);margin-top:8px}
+.wkl b{color:#C2410C;font-weight:600}
+
+/* part 2 */
+.part2{grid-area:part2}
+.part2 .story{background:#FAFAFB;border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:17px;color:var(--ink2);line-height:1.45}
+.part2 .story b{color:var(--ink);font-weight:600}
+.part2 .pills{display:flex;gap:8px;margin-top:12px}
+
+/* AI tile: orb colours */
+.ai{grid-area:ai;color:#fff;background:
+  radial-gradient(60% 55% at 85% 15%,rgba(255,214,90,.85),rgba(255,214,90,0) 70%),
+  radial-gradient(70% 60% at 10% 30%,rgba(236,72,153,.85),rgba(236,72,153,0) 70%),
+  radial-gradient(80% 70% at 70% 95%,rgba(56,189,248,.85),rgba(56,189,248,0) 70%),
+  linear-gradient(135deg,#F97316,#A855F7)}
+.ai::before{display:none}
+.ai .t{color:#fff;text-shadow:0 1px 12px rgba(80,20,60,.25)}
+.bub{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.bub span{background:rgba(255,255,255,.92);color:var(--ink);font-size:17px;font-weight:500;border-radius:16px 16px 4px 16px;padding:8px 12px;white-space:nowrap;box-shadow:0 6px 14px -8px rgba(0,0,0,.35)}
+
+/* models */
+.models{grid-area:models;background:linear-gradient(160deg,#1f1f22 0%,#121214 100%);color:#fff;flex-direction:row;gap:20px;align-items:stretch}
+.models::before{background:radial-gradient(closest-side,rgba(242,112,30,.35),rgba(242,112,30,0));inset:auto -10% -70% auto;width:60%;height:120%}
+.models .l{flex:1.7;display:flex;flex-direction:column}
+.models .t{color:#fff;font-size:31px}
+.models .pills{display:flex;gap:10px;margin-top:auto}
+.models .pill{background:rgba(255,255,255,.1);color:#f5f5f7;font-size:22px}
+.models .pill.sel{background:rgba(242,112,30,.22);color:#FFB26B;box-shadow:inset 0 0 0 1.5px rgba(255,178,107,.6)}
+.models .r{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;text-align:right;position:relative}
+.models .r .num{font-size:76px}
+.models .r .muted{color:#aeaeb2;font-size:21px;margin-top:8px}
+
+/* +0.35 */
+.plus{grid-area:plus;background:radial-gradient(110% 90% at 100% 0%,#FFE1C7 0%,rgba(255,225,199,0) 60%),#fff}
+.plus .num{font-size:92px}
+.plus .muted{font-size:18px;margin-top:6px;color:var(--ink3)}
+
+/* cover variant: headline on top third, condensed bento below */
+body{position:relative}
+.top{position:absolute;left:0;right:0;top:0;height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.top h1{font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.top h1 .l1{display:block;font-size:136px;line-height:1.1}
+.top h1 .l2{display:block;font-size:90px;line-height:1.2;margin-top:6px}
+.top h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top .cm{display:inline-block;width:.5em;margin-right:-.5em}
+.top .brand{display:flex;align-items:center;justify-content:center;margin-top:22px;font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;font-size:40px;color:var(--ink)}
+.top .brand img{width:64px;height:64px;border-radius:15px;margin-right:16px;box-shadow:0 6px 16px -8px rgba(120,60,20,.35)}
+.top .brand .num{font-size:42px;margin:0 8px}
+.grid{position:absolute;left:0;bottom:0;height:970px;padding:12px 32px 32px;
+  grid-template-rows:211px 230px 241px 1fr !important;
+  grid-template-areas:
+    "goal goal plus"
+    "goal goal gap"
+    "next ai part2"
+    "models models week" !important}
+.goal .big{font-size:96px}
+/* proportion fix: score card directly under the one-line title and filling the tile; tighter tile padding */
+.card{padding:22px 24px 20px}
+.goal{padding:30px 30px 28px}
+.goal .vcard{margin-top:22px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.plus .num{font-size:80px}
+.range{font-size:44px}
+.gap .still{margin-top:8px;padding-top:8px}
+.mini-home{padding:10px 14px 12px}
+.mini-home .btn{margin-top:8px}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1><span class="l1">练<em>雅思口语</em><span class="cm">，</span></span><span class="l2">最想要的功能做出来了</span></h1>
+  <div class="brand"><img src="assets/joe-speaking-icon.png" alt="">Joe Speaking<span class="num gnum">1.5</span>更新</div>
+</div>
+<div class="grid">
+
+
+  <div class="card goal">
+    <div class="t" style="white-space:nowrap">围绕口语目标安排练习</div>
+    <div class="vcard">
+      <div class="row">
+        <div><div class="lab">近 30 天平均分</div><div class="num gnum big">6.8</div></div>
+        <span class="pill o">◎ 雅思 7.5</span>
+      </div>
+      <div class="bar"><b></b><u></u></div>
+      <div class="ticks"><span>6.0</span><span class="tg">目标 7.5</span><span>8.0</span></div>
+    </div>
+  </div>
+
+  <div class="card next">
+    <div class="t">打开首页就知道<br>下一步练什么</div>
+    <div class="v mini-home">
+      <div class="q">Part 2 · 事件题</div>
+      <div class="btn">开始练习 →</div>
+    </div>
+  </div>
+
+  <div class="card gap">
+    <div class="t">清楚离目标<br>还差多少</div>
+    <div class="v">
+      <div class="num gnum range">7.0–7.5</div>
+      <div class="still"><span>下一档 8.0</span><span>还差 <span class="num">0.2</span></span></div>
+    </div>
+  </div>
+
+
+
+  <div class="card week">
+    <div class="t">每周开口多少<br>连续练了几天</div>
+    <div class="v">
+      <div class="days"><i class="on l">✓</i><i class="on">✓</i><i class="on">✓</i><i class="on l">✓</i><i class="on">✓</i><i></i><i></i></div>
+      <div class="streak"><b></b>连续练习 <span class="num">5</span> 天</div>
+    </div>
+  </div>
+
+
+  <div class="card part2">
+    <div class="t">Part 2 用熟悉的<br>故事串题</div>
+    <div class="v">
+      <div class="pills"><span class="pill o">ChatGPT</span><span class="pill o">豆包</span></div>
+    </div>
+  </div>
+
+  <div class="card ai">
+    <div class="t">请 AI 帮你<br>安排练习</div>
+    <div class="v bub">
+      <span>那我今天先练习哪个？</span>
+      <span>怎样才能稳定在 7.5 分？</span>
+    </div>
+  </div>
+
+  <div class="card models">
+    <div class="l">
+      <div class="t">详细反馈可选<br><span style="white-space:nowrap">Gemini、GPT、Claude</span></div>
+      <div class="pills"><span class="pill">✦ Gemini</span><span class="pill sel">GPT</span><span class="pill">Claude</span></div>
+    </div>
+    <div class="r">
+      <div class="muted" style="margin:0 0 10px">默认模型积分约</div>
+      <div class="num gnum">-20%</div>
+    </div>
+  </div>
+
+  <div class="card plus">
+    <div class="t">累计练 5 天以上<br>复测平均</div>
+    <div class="v">
+      <div class="num gnum">+0.35</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

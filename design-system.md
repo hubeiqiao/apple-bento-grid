@@ -13,6 +13,7 @@ Complete design tokens, card components, layout templates, and HTML skeleton for
 7. [Background Texture](#7-background-texture) — Optional crosshatch overlay
 8. [Complete HTML Skeleton](#8-complete-html-skeleton) — Copy-paste starter template (light)
 9. [Dark Theme](#9-dark-theme) — Complete dark theme tokens, card overrides, and skeleton
+10. [Premium Light & Social 3:4](#10-premium-light--social-34) — Gradient tiles, glow, gradient numbers, UI vignettes, brand header, bento cover, row balancing, CJK heavy font
 
 ---
 
@@ -1570,3 +1571,158 @@ Use subtle radial glow effects to add depth to stat cards:
 </body>
 </html>
 ```
+
+
+---
+
+## 10. Premium Light & Social 3:4
+
+A richer light variant for version updates and social carousels (小红书 / Instagram portrait). Reference files: `examples/joe-speaking-1-5-bento-3x4.html` (full summary) and `examples/joe-speaking-1-5-bento-cover-3x4.html` (bento cover).
+
+### 10.1 Canvas, grid and fonts
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+```
+
+```css
+:root{
+  --o1:#FFB26B; --o2:#F2701E; --o3:#D9480F;          /* brand ramp: swap for your brand */
+  --grad:linear-gradient(135deg,var(--o1) 0%,var(--o2) 55%,var(--o3) 100%);
+  --ink:#1d1d1f; --ink2:#6e6e73; --ink3:#aeaeb2; --line:#ececf0;
+}
+body{width:1080px;height:1440px;overflow:hidden;background:#f5f5f7;
+  font-family:"PingFang SC","Hiragino Sans GB",'DM Sans',sans-serif}
+.grid{display:grid;width:1080px;height:1440px;padding:32px;gap:12px;   /* 12px = 6px rule scaled to 1080 */
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:128px 240px 236px 222px 262px 1fr;               /* balanced by measurement, see 10.6 */
+  grid-template-areas:
+    "head head head"
+    "goal goal next"
+    "goal goal gap"
+    "crit retry week"
+    "time part2 ai"
+    "models models plus"}
+```
+
+- PingFang SC has no weight above Semibold; heavy CJK headlines use `font-family:"Noto Sans SC","PingFang SC",sans-serif; font-weight:900`.
+- Render at 1× with headless Chrome: `--headless=new --window-size=1080,1440 --force-device-scale-factor=1 --virtual-time-budget=8000` (the time budget lets the Google Fonts CJK slices load).
+
+### 10.2 Premium card: soft gradient, glow, gradient numbers
+
+```css
+.card{position:relative;overflow:hidden;border-radius:30px;background:#fff;padding:22px 24px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px -12px rgba(120,60,20,.14);display:flex;flex-direction:column}
+/* subtle glow in a corner */
+.card::before{content:"";position:absolute;inset:auto -30% -55% auto;width:80%;height:90%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(242,112,30,.10),rgba(242,112,30,0));pointer-events:none}
+.t{font-weight:700;font-size:29px;line-height:1.28;word-break:keep-all;position:relative}  /* tile title */
+.v{margin-top:auto;position:relative}                                                      /* vignette */
+.num{font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-.035em;line-height:1}
+.gnum{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* tinted hero tile */
+.goal{background:radial-gradient(120% 90% at 100% 0%,#FFD9B8 0%,rgba(255,217,184,0) 60%),
+                 linear-gradient(160deg,#FFF7F0 0%,#FFE9D8 100%)}
+/* one dark tile for contrast */
+.models{background:linear-gradient(160deg,#1f1f22 0%,#121214 100%);color:#fff}
+/* one "special" tile, e.g. the product's AI / orb colours */
+.ai{color:#fff;background:
+  radial-gradient(60% 55% at 85% 15%,rgba(255,214,90,.85),rgba(255,214,90,0) 70%),
+  radial-gradient(70% 60% at 10% 30%,rgba(236,72,153,.85),rgba(236,72,153,0) 70%),
+  radial-gradient(80% 70% at 70% 95%,rgba(56,189,248,.85),rgba(56,189,248,0) 70%),
+  linear-gradient(135deg,#F97316,#A855F7)}
+```
+
+### 10.3 UI vignettes
+
+Small drawings of the product's own UI make a tile read instantly. Numbers inside them are illustrations, not statistics.
+
+```html
+<!-- target progress bar -->
+<div class="vcard">
+  <div class="lab">近 30 天平均分</div><div class="num gnum big">6.8</div>
+  <div class="bar"><b style="width:72%"></b><u style="left:86%"></u></div>   <!-- u = target marker -->
+  <div class="ticks"><span>6.0</span><span class="tg">目标 7.5</span><span>8.0</span></div>
+</div>
+<!-- range + gap -->
+<div class="num gnum range">7.0–7.5</div>
+<div class="still"><span>下一档 8.0</span><span>还差 <span class="num">0.2</span></span></div>
+<!-- criterion bars: highlight the weakest -->
+<div class="cb"><span>流利</span><div class="tr"><b style="width:78%"></b></div>
+  <span class="lo-l">语法</span><div class="tr lo"><b style="width:52%"></b></div></div>
+<!-- week check row + streak -->
+<div class="days"><i class="on">✓</i><i class="on">✓</i><i class="on">✓</i><i></i><i></i><i></i><i></i></div>
+<div class="streak"><b></b>连续练习 <span class="num">3</span> 天</div>
+<!-- chat bubbles -->
+<div class="bub"><span>那我今天先练习哪个？</span><span>怎样才能稳定在 7.5 分？</span></div>
+```
+
+```css
+.bar{position:relative;height:18px;border-radius:9px;background:#F3E7DD}
+.bar b{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:var(--grad)}
+.bar u{position:absolute;top:-10px;width:4px;height:38px;border-radius:2px;background:var(--ink)}
+.cb{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px 10px}
+.cb .tr{height:12px;border-radius:6px;background:#f0f0f3;position:relative}
+.cb .tr b{position:absolute;inset:0 auto 0 0;border-radius:6px;background:#d7d7dd}
+.cb .tr.lo b{background:var(--grad)}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.days i{aspect-ratio:1;border-radius:9px;background:#f2f2f5;display:grid;place-items:center;color:#fff;font-style:normal}
+.days i.on{background:var(--grad)}
+.bub{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.bub span{background:rgba(255,255,255,.92);border-radius:16px 16px 4px 16px;padding:8px 12px;white-space:nowrap}
+```
+
+### 10.4 Brand header
+
+```css
+.head{grid-area:head;flex-direction:row;align-items:center;justify-content:center}   /* centred */
+.head .h{font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;font-size:50px;display:flex;align-items:center}
+.head .logo{width:88px;height:88px;margin-right:22px;border-radius:20px;position:relative;top:2px}   /* ≈1.3× cap height */
+```
+
+```html
+<div class="card head">
+  <div class="h"><img class="logo" src="assets/logo.png" alt=""><span>Product <span class="num gnum">1.5</span> 更新</span></div>
+</div>
+```
+
+Wrap the text in a `<span>`: inside a flex container, bare text nodes lose the spaces between them.
+
+### 10.5 Bento cover (3:4)
+
+Top ~1/3: one heavy headline (two lines if needed), the key phrase in the brand gradient, then a small logo + "Product X.Y 更新" line. Bottom ~2/3: the 6–8 strongest tiles.
+
+```css
+.top{position:absolute;left:0;right:0;top:0;height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.top h1{font-family:"Noto Sans SC","PingFang SC",sans-serif;font-weight:900;white-space:nowrap}
+.top h1 .l1{display:block;font-size:136px;line-height:1.1}
+.top h1 .l2{display:block;font-size:90px;line-height:1.2}
+.top h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top .cm{display:inline-block;width:.5em;margin-right:-.5em}   /* hang a line-end comma so the line stays centred */
+.grid{position:absolute;left:0;bottom:0;height:970px;padding:12px 32px 32px;
+  grid-template-rows:211px 230px 241px 1fr;
+  grid-template-areas:"goal goal plus" "goal goal gap" "next ai part2" "models models week"}
+```
+
+Check the PNG at **350px wide** (feed thumbnail): the headline and the gradient numbers must still read.
+
+### 10.6 Row balancing: measure, don't eyeball
+
+On fixed canvases, equal `1fr` rows leave an empty band in tiles with little content and make busy tiles collide. Set explicit row heights, let the hero tile's inner card fill it (`.goal .vcard{margin-top:22px;flex:1;display:flex;flex-direction:column;justify-content:center}`), then measure every tile:
+
+```js
+// tile_check.js — load after the page, then read document.body.dataset.tiles
+setTimeout(()=>{const out=[];document.querySelectorAll('.card').forEach(c=>{
+  const C=c.getBoundingClientRect(), t=c.querySelector('.t'); if(!t) return;
+  const T=t.getBoundingClientRect();
+  const kids=[...c.querySelectorAll('.v, .vcard, .pills, .num, .bub, .mini-home, .r')].filter(k=>!t.contains(k));
+  let top=1e9, bot=0; kids.forEach(k=>{const R=k.getBoundingClientRect(); if(R.top>=T.top) top=Math.min(top,R.top); bot=Math.max(bot,R.bottom);});
+  out.push(c.className.replace('card ','')+': h='+Math.round(C.height)+' gap='+Math.round(top-T.bottom)+' bottomRoom='+Math.round(C.bottom-bot));});
+  document.body.setAttribute('data-tiles',out.join(' | '));},2500);
+```
+
+```bash
+chrome --headless=new --window-size=1080,1440 --virtual-time-budget=6000 --dump-dom file:///path/page-with-check.html | grep -o 'data-tiles="[^"]*"'
+```
+
+Targets: title-to-content `gap` ≥ 12px (16–24px typical), `bottomRoom` ≥ 16px. A negative gap is only acceptable for content deliberately placed beside the title (e.g. a right-aligned big number). Move height from tiles with large gaps to tiles with small ones, keep the outer size and the tile gap, and re-measure.

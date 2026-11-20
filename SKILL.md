@@ -105,6 +105,10 @@ Always produce a **single self-contained HTML file** with:
 | A: Horizontal | 4-col | 1200px | 52/25 | 12-16 cards, slides |
 | B: Horizontal | 3-col | 1100px | 52/22 | 8-10 cards, focused |
 | C: Vertical | 2-col | 600px | none (content) | 8-14 cards, social |
+| D: Social 3:4 | 3-col | 1080×1440 canvas | fixed 3:4 | 8-12 tiles, 小红书 / Instagram portrait |
+| E: Bento cover 3:4 | 3-col | 1080×1440 canvas | fixed 3:4 | Headline in top ~1/3 + 6-8 tiles, carousel cover |
+
+Templates D and E are fixed-size canvases, so rows are balanced by hand (see **Premium Style & Social Formats** below) and the grid gap scales with the canvas: 12px at 1080px wide (the 6px rule at 600px × 1.8).
 
 ## Critical: Zero-Gap Grid Rules
 
@@ -150,7 +154,7 @@ Users can add their own logos or images to bento grid cards. Ask the user if the
 
 **Guidelines:**
 - Use `<img src="path/to/file.png">` with a local file path — the HTML is for screenshot export, not hosting
-- Keep logos small (24–48px) so they don't dominate the card
+- Keep logos small (24–48px) so they don't dominate the card — except the **brand header** below
 - For dark theme, ensure logos work on dark backgrounds (use white/light versions)
 - Always add `alt` text for accessibility
 
@@ -164,6 +168,38 @@ Users can add their own logos or images to bento grid cards. Ask the user if the
 | Social / portrait format | C (2-col vertical) | Any mix, smaller fonts |
 
 **Density rule**: Every card should feel full. If a card looks sparse, add a subtitle, badge, or pill tags. If the grid has visible empty space, either span a card across cells or add a supporting card.
+
+## Premium Style & Social Formats
+
+Use this for product launches, version updates and social carousels, when flat white cards look too plain. Full CSS in design-system.md **Section 10**; worked examples in `examples/joe-speaking-1-5-bento-3x4.html` and `examples/joe-speaking-1-5-bento-cover-3x4.html`.
+
+**Premium look**
+- Soft gradient tiles (a light tint of the brand colour, radial highlight in one corner) instead of flat white everywhere; keep most tiles white so the tinted ones carry weight.
+- A subtle glow: a blurred radial blob of the accent colour at low opacity behind a corner of each card.
+- Big gradient numbers (`background-clip: text` with the brand gradient) for the 2–3 hero figures.
+- Small real-UI vignettes inside tiles — a progress bar with a target marker, a range chip with "还差 0.2", four criterion bars, a week check row with a streak, a mini recommendation card, chat bubbles — drawn the way the product's UI draws them, not generic charts.
+- One dark tile and at most one "special" colour tile (e.g. the product's AI/orb colours) for contrast.
+
+**Brand header**
+- Use the product's official logo file (from the product repo or press kit); never draw a new mark.
+- Centre the title in the header tile; the logo sits left of the title, about 1.3× the title's cap height (≈84–96px for a 50px title), optically centred with the text (nudge 2–4px if the icon has a built-in rim).
+
+**Content rules for a "version update" bento**
+- Show **what changed** in the version: one tile per change, titled with the change itself.
+- No usage, revenue, business or personal-account statistics presented as data. Numbers inside vignettes are UI illustrations (e.g. "6.8 → 目标 7.5"). A real number is allowed only when the product itself shows it publicly (e.g. an in-app "+0.35 after 5+ practice days").
+- No URLs, prices or QR codes on social images.
+
+**Tile titles and row heights**
+- Put each tile title on **one line** whenever the tile width allows; shrink the font only as much as needed.
+- Balance row heights to content: no empty band under a title, no title/content collision. On fixed canvases set explicit `grid-template-rows` in px and let the last row take `1fr`.
+- Before calling it done, **measure** every tile's title-to-content gap and bottom room with the `tile_check.js` snippet (design-system.md 10.6). Targets: gap ≥ 12px (≈16–24px typical), bottom room ≥ 16px, no negative values except deliberately side-by-side content.
+
+**Social formats**
+- 小红书 / Instagram portrait: **1080×1440 (3:4)**, rendered at 1× with headless Chrome (`--window-size=1080,1440`).
+- **Bento cover**: a big, heavy headline in the top ~1/3 (key phrase in the brand gradient), a small logo + "Product X.Y 更新" line under it, then 6–8 of the strongest tiles below. Always view it at **350px wide** (feed thumbnail size): the headline and the big numbers must read there.
+
+**Fonts for CJK**
+- PingFang SC tops out at Semibold. For heavy CJK headlines load **Noto Sans SC 900 (Black)** from Google Fonts (`family=Noto+Sans+SC:wght@900`) and keep PingFang SC as the fallback for body text.
 
 ## Customization Checklist
 
@@ -187,6 +223,8 @@ After generating a bento grid HTML file:
 3. For dark theme — verify card backgrounds are #1a1a1a, not #fff
 4. Screenshot at the correct viewport width (1200/1100/600) at 2x resolution
 5. Confirm density — no card should have excessive whitespace
+6. For fixed canvases (Templates D/E) — run the `tile_check.js` measurement (design-system.md 10.6): no title/content collision, no empty band
+7. For social covers — view the PNG at 350px wide and confirm the headline and hero numbers read
 
 ## Notes
 
@@ -196,8 +234,11 @@ After generating a bento grid HTML file:
 - Maximum 3–4 accent colors per grid to maintain Apple-like restraint
 - This skill produces static HTML for screenshot export, not interactive dashboards
 - For grids with fewer than 6 data points, Template C (2-col vertical) usually works best
+- CJK headlines that must look heavy need Noto Sans SC 900; PingFang SC stops at Semibold
 
 ## Reference Files
 
 - [`design-system.md`](design-system.md) — Complete design tokens (light + dark), card CSS/HTML, layout templates, and skeleton
 - [`scripts/screenshot.mjs`](scripts/screenshot.mjs) — Playwright screenshot capture script
+- [`examples/joe-speaking-1-5-bento-3x4.html`](examples/joe-speaking-1-5-bento-3x4.html) — Premium light bento, 1080×1440 version-update summary with brand header and UI vignettes
+- [`examples/joe-speaking-1-5-bento-cover-3x4.html`](examples/joe-speaking-1-5-bento-cover-3x4.html) — Bento cover: heavy CJK headline on top, 8 tiles below
